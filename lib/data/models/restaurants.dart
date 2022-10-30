@@ -14,17 +14,17 @@ class Restaurants {
   List<Types>? types;
 
   Restaurants(
-      {this.id,
-        this.name,
-        this.description,
-        this.latitude,
-        this.longitude,
-        this.logo,
-        this.coverImage,
-        this.distance,
-        this.isOpen,
-        this.workingHours,
-        this.types});
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.latitude,
+      required this.longitude,
+      required this.logo,
+      required this.coverImage,
+      required this.distance,
+      required this.isOpen,
+      required this.workingHours,
+      required this.types});
 
   Restaurants.fromJson(Map<String, dynamic> json) {
     id = json['id'];

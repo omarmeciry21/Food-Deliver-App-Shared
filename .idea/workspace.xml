@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/lib/data/models/auth/login.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/auth/login_response.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/auth/verify_otp.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/auth/verify_otp_response.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/banners.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/list_of_restaurants.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/restaurants.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/models/types.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/network/auth_api.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/network/base_api.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" afterDir="false" />
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="added models &amp; apis">
+      <change afterPath="$PROJECT_DIR$/assets/images/food-delivery.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/orders-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/restaurant_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/models/restaurants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/restaurants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/base_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/base_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
@@ -29,11 +42,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2GclPDXjBmfLS0bVUhvX169UZP9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectReloadState">
+    <option name="STATE" value="1" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -43,11 +62,19 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dart.analysis.tool.window.visible": "false",
+    "flutter.view.tool.window.visible": "true",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "F:/FoodDelivery/food_delivery_app/android/app/src/main/res",
+    "settings.editor.selected.configurable": "flutter.settings",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\FoodDelivery\food_delivery_app\android\app\src\main\res" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\FoodDelivery\food_delivery_app\assets\images" />
       <recent name="C:\Users\TOSHIBA\IdeaProjects\food_delivery_app\lib\data\models" />
     </key>
   </component>
@@ -73,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666695919988</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added models &amp; apis">
+      <created>1666700292366</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666700292366</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -89,6 +123,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="added models &amp; apis" />
+    <option name="LAST_COMMIT_MESSAGE" value="added models &amp; apis" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
