@@ -12,7 +12,10 @@ class AppPropertiesProvider extends ChangeNotifier {
     "verifyNumberTitle": "Verify your number",
     "verifyNumberText": "Enter the 6-digits code sent to ",
     "open": "Open",
-    "close": "Close"
+    "close": "Close",
+    "anErrorOccurred": "An error occurred! Please, try again.",
+    "addresses": "Addresses",
+    "noSessionFound": "No session key found! Please, login and try again.",
   };
 
   Map<String, String> _strings = en_strings;

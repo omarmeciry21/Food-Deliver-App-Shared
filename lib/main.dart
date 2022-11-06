@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Center(
           child: TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: 1.0),
-            duration: Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 1000),
             builder: (context, animationVal, _) {
               return Row(
                 children: [

@@ -1,13 +1,13 @@
 class VerifyOTPResponse {
   bool? status;
-  User? user;
+  UserSession? user;
   String? message;
 
   VerifyOTPResponse({this.status, this.user, this.message});
 
   VerifyOTPResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? new UserSession.fromJson(json['user']) : null;
     message = json['message'];
   }
 
@@ -17,18 +17,17 @@ class VerifyOTPResponse {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
-    if(this.message!=null)
-    data['message'] = this.message;
+    if (this.message != null) data['message'] = this.message;
     return data;
   }
 }
 
-class User {
+class UserSession {
   String? session;
 
-  User({this.session});
+  UserSession({this.session});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserSession.fromJson(Map<String, dynamic> json) {
     session = json['session'];
   }
 

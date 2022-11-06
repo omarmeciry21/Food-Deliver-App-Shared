@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/models/auth/login.dart';
+import 'package:food_delivery_app/data/models/auth/login_response.dart';
+import 'package:food_delivery_app/data/models/countries/countries.dart';
+import 'package:food_delivery_app/data/network/auth_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/ui/screens/verify_otp_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/dialogs.dart';
 
 class LoginScreenRoute extends CupertinoPageRoute {
   LoginScreenRoute()
@@ -26,6 +32,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String selectedCode = "+966";
   final phoneNumberController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,44 +90,125 @@ class _LoginScreenState extends State<LoginScreen> {
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16),
+                  padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black26),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: DropdownButton<String>(
-                    value: selectedCode,
-                    items: ["+966", "+20"].map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedCode = newValue.toString();
-                      });
-                    },
-                    borderRadius: BorderRadius.circular(10),
-                    icon: Icon(Icons.keyboard_arrow_down_rounded),
-                    underline: SizedBox(),
-                  ),
+                  height: 60,
+                  child: FutureBuilder(
+                      future: AuthAPI().getCountries(),
+                      builder: (context, snapshot) {
+                        List<Countries> countries = [];
+                        if (snapshot.hasData) {
+                          countries = [];
+                          (snapshot.data!.countries ?? []).forEach((element1) {
+                            if (countries
+                                .where((element2) =>
+                                    element1.countryCode ==
+                                    element2.countryCode)
+                                .toList()
+                                .isEmpty) {
+                              countries.add(element1);
+                            }
+                          });
+                          selectedCode = countries!.length == 0
+                              ? selectedCode
+                              : countries!.first!.countryCode!;
+                        }
+                        return DropdownButton<String>(
+                          value: selectedCode,
+                          items: countries.length == 0
+                              ? [
+                                  DropdownMenuItem(
+                                    value: selectedCode,
+                                    child: Text(
+                                      selectedCode.toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                    ),
+                                  )
+                                ]
+                              : countries.map((Countries item) {
+                                  return DropdownMenuItem(
+                                    value: item.countryCode.toString(),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            height: 20,
+                                            width: 20,
+                                            child: FadeInImage(
+                                              placeholder: AssetImage(
+                                                  "assets/images/placeholder.jpg"),
+                                              image: NetworkImage(item.flag!),
+                                            )),
+                                        Container(
+                                          padding: EdgeInsets.all(5),
+                                          child: Text(
+                                            item.countryCode.toString(),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedCode = newValue.toString();
+                            });
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            size: 15,
+                          ),
+                          underline: SizedBox(),
+                        );
+                      }),
                 ),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
                     width: 200,
-                    child: TextField(
-                      controller: phoneNumberController,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black26)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor)),
-                          hintText: "XXXXXXXXX"),
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: phoneNumberController,
+                        validator: (val) {
+                          final RegExp regExp = RegExp(r"\d{6,11}");
+                          return regExp.hasMatch(phoneNumberController.text)
+                              ? null
+                              : "Invalid phone number !";
+                        },
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).accentColor)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.red)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.red)),
+                            hintText: "XXXXXXXXX"),
+                      ),
                     ),
                   ),
                 ),
@@ -130,15 +218,31 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   //TODO: implement phone number
-                  Navigator.push(
-                    context,
-                    VerifyOTPScreenRoute(
-                      phoneNumberController.text
-                          .substring(phoneNumberController.text.length - 2),
-                    ),
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    showLoadingDialog(context);
+                    LoginResponse response = LoginResponse(status: false);
+                    try {
+                      response = await AuthAPI().login(Login(
+                          code: selectedCode,
+                          phone: phoneNumberController.text));
+                    } catch (e) {
+                      print(e.toString());
+                      response.message = e.toString();
+                    }
+                    Navigator.pop(context);
+                    if (response.status ?? false) {
+                      Navigator.push(
+                        context,
+                        VerifyOTPScreenRoute(
+                            phoneCode: selectedCode,
+                            phoneNum: phoneNumberController.text),
+                      );
+                    } else {
+                      print(response.toJson());
+                    }
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:

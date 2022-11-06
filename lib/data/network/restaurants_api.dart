@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 
 class RestaurantAPI {
   static Future<ListOfRestaurants> getListOfRestaurants(
-      double lat, double lon, String language) async {
+      {required double lat,
+      required double lon,
+      required String language}) async {
     try {
       http.Response response = await BaseAPI.get(
           uri: 'restaurant/list?languageType=$language&lat=$lat&lon=$lon');

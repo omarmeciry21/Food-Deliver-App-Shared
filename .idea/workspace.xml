@@ -5,32 +5,40 @@
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="added models &amp; apis">
-      <change afterPath="$PROJECT_DIR$/assets/images/food-delivery.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/orders-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/restaurant_card.dart" afterDir="false" />
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="working on restaurants_screen.dart">
+      <change afterPath="$PROJECT_DIR$/assets/images/down-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/placeholder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/models/addresses.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/models/countries/countries.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/models/countries/countries_response.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/models/user.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/models/user_details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/network/location_api.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/addresses_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/models/restaurants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/restaurants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/network/base_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/base_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_delivery_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/food_delivery_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/models/auth/verify_otp_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/auth/verify_otp_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/auth_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/auth_api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -57,23 +65,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "flutter.view.tool.window.visible": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "F:/FoodDelivery/food_delivery_app/android/app/src/main/res",
-    "settings.editor.selected.configurable": "flutter.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;MATLAB_INTERPRETER&quot;: &quot;F:\\FoodDelivery\\food_delivery_app\\lib\\counter.m&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/FoodDelivery/food_delivery_app/android/app/src/main/res&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\FoodDelivery\food_delivery_app\android\app\src\main\res" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\FoodDelivery\food_delivery_app\lib\data\models" />
+      <recent name="F:\FoodDelivery\food_delivery_app\lib\data\network" />
       <recent name="F:\FoodDelivery\food_delivery_app\assets\images" />
       <recent name="C:\Users\TOSHIBA\IdeaProjects\food_delivery_app\lib\data\models" />
     </key>
@@ -107,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666700292366</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="working on restaurants_screen.dart">
+      <created>1667130082628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667130082628</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,7 +141,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="added models &amp; apis" />
-    <option name="LAST_COMMIT_MESSAGE" value="added models &amp; apis" />
+    <MESSAGE value="working on restaurants_screen.dart" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on restaurants_screen.dart" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
