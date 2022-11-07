@@ -16,11 +16,29 @@ class AppPropertiesProvider extends ChangeNotifier {
     "anErrorOccurred": "An error occurred! Please, try again.",
     "addresses": "Addresses",
     "noSessionFound": "No session key found! Please, login and try again.",
+    "newAddress": "New Address",
+    "confirmLocation": "Confirm Location",
+    "deliveryLocation": "Delivery Location",
+    "addressName": "Address Label",
+    "requiredField": "This field is required.",
+    "addressDetails": "Please, enter more details about delivery address.",
+    "OK": "OK",
+    "cancel": "cancel",
+    "deleteAddressTitle": "Delete Address",
+    "deleteAddressContent": "Are you sure you want to delete this address?"
   };
+  String _language = "en";
 
-  Map<String, String> _strings = en_strings;
+  String get language => _language;
 
-  Map<String, String> get strings => _strings;
+  set language(String value) {
+    _language = value;
+    notifyListeners();
+  }
+
+  late Map<String, String> _strings;
+
+  Map<String, String> get strings => language == "en" ? en_strings : ar_strings;
 
   set strings(Map<String, String> value) {
     _strings = value;

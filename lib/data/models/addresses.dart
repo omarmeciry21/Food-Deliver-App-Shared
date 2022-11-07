@@ -4,8 +4,15 @@ class Addresses {
   double? latitude;
   double? longitude;
   String? details;
+  String? addressLine;
 
-  Addresses({this.id, this.name, this.latitude, this.longitude, this.details});
+  Addresses(
+      {this.id,
+      this.name,
+      this.latitude,
+      this.longitude,
+      this.details,
+      this.addressLine});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -13,6 +20,7 @@ class Addresses {
     latitude = json['latitude'];
     longitude = json['longitude'];
     details = json['details'];
+    if (json["addressLine"] != null) details = json['details'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +30,8 @@ class Addresses {
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['details'] = this.details;
+
+    if (this.details != null) data['addAddress'] = this.details;
     return data;
   }
 }

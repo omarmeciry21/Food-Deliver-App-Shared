@@ -45,6 +45,66 @@ class AuthAPI {
     }
   }
 
+  Future<UserDetails> addAddress({
+    required BuildContext context,
+    required String addressLabel,
+    required String addressDetails,
+    required double lat,
+    required double lng,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    String session = await prefs.getString("session") ?? "";
+    try {
+      if (session == "")
+        throw (Provider.of<AppPropertiesProvider>(context)
+            .strings["noSessionFound"]
+            .toString());
+      http.Response response = await BaseAPI.post(
+        uri:
+            'user/addAddress?languageType=${Provider.of<AppPropertiesProvider>(context, listen: false).language}&s=$session',
+        body: {
+          "name": addressLabel,
+          "latitude": lat.toString(),
+          "longitude": lng.toString(),
+          "details": addressDetails,
+        },
+      );
+      if (response.statusCode <= 299 && response.statusCode >= 200) {
+        return UserDetails.fromJson(jsonDecode(response.body));
+      } else {
+        throw ("${response.statusCode} - ${response.body}");
+      }
+    } catch (e) {
+      throw ("Exception in AUTHAPI->addAddress: " + e.toString());
+    }
+  }
+
+  Future<UserDetails> deleteAddress(
+      {required BuildContext context, required String id}) async {
+    final prefs = await SharedPreferences.getInstance();
+    String session = await prefs.getString("session") ?? "";
+    try {
+      if (session == "")
+        throw (Provider.of<AppPropertiesProvider>(context)
+            .strings["noSessionFound"]
+            .toString());
+      http.Response response = await BaseAPI.post(
+        uri:
+            'user/deleteAddress?languageType=${Provider.of<AppPropertiesProvider>(context, listen: false).language}&s=$session',
+        body: {
+          "id": id,
+        },
+      );
+      if (response.statusCode <= 299 && response.statusCode >= 200) {
+        return UserDetails.fromJson(jsonDecode(response.body));
+      } else {
+        throw ("${response.statusCode} - ${response.body}");
+      }
+    } catch (e) {
+      throw ("Exception in AUTHAPI->addAddress: " + e.toString());
+    }
+  }
+
   Future<CountriesResponse> getCountries() async {
     try {
       http.Response response =

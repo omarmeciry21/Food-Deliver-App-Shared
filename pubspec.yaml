@@ -41,6 +41,10 @@ dependencies:
   carousel_slider: ^4.1.1
   location: ^4.4.0
   shared_preferences: ^2.0.15
+  google_maps_flutter: ^2.2.1
+  flutter_google_places: ^0.3.0
+  address_search_field:
+  geocoder2: ^1.4.0
 
 dev_dependencies:
   flutter_test:
