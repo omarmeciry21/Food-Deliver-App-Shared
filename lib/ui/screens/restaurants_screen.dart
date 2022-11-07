@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/models/list_of_restaurants.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/location_api.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
+import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/addresses_screen.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -26,13 +26,22 @@ class RestaurantsScreen extends StatelessWidget {
   RestaurantsScreen({Key? key}) : super(key: key);
   int bannerheightFactor = 0;
 
-  Future<ListOfRestaurants> getUserDetailsAndRestaurants() async {
+  Future<List<Restaurants>> getUserDetailsAndRestaurants(
+      BuildContext context) async {
     LocationData locationData = await LocationAPI.getCurrentLocation()
         .onError((Exception error, stackTrace) => throw (error));
-    return await RestaurantAPI.getListOfRestaurants(
-        lat: locationData.latitude ?? 24.3,
-        lon: locationData.longitude ?? 46.7,
-        language: "en");
+
+    Provider.of<RestaurantsProvider>(context, listen: false).listOfRestaurants =
+        await RestaurantAPI.getListOfRestaurants(
+            lat: locationData.latitude ?? 24.3,
+            lon: locationData.longitude ?? 46.7,
+            language: Provider.of<AppPropertiesProvider>(context, listen: false)
+                .language);
+
+    return Provider.of<RestaurantsProvider>(context, listen: false)
+            .listOfRestaurants!
+            .restaurants ??
+        [];
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); // Create a key
@@ -68,10 +77,11 @@ class RestaurantsScreen extends StatelessWidget {
           children: [
             CustomAppBar(scaffoldKey: scaffoldKey),
             Expanded(
-              child: FutureBuilder<ListOfRestaurants>(
-                  future: getUserDetailsAndRestaurants(),
+              child: FutureBuilder<List<Restaurants>>(
+                  future: getUserDetailsAndRestaurants(context),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
+                      print(snapshot.error);
                       return Center(
                         child: Text(
                           snapshot.error.toString(),
@@ -81,29 +91,19 @@ class RestaurantsScreen extends StatelessWidget {
                       );
                     }
                     if (snapshot.hasData) {
-                      ListOfRestaurants listOfRestaurants = snapshot.data!;
+                      List<Restaurants> listOfRestaurants =
+                          Provider.of<RestaurantsProvider>(context)
+                                  .displayedRestaurants ??
+                              [];
                       return ListView.builder(
-                          itemCount: listOfRestaurants.restaurants != null
-                              ? listOfRestaurants.restaurants!.length
+                          itemCount: listOfRestaurants != null
+                              ? listOfRestaurants!.length
                               : 0,
                           // itemCount: 5,
                           itemBuilder: (context, index) {
-                            Restaurants restaurant =
-                                listOfRestaurants.restaurants![index];
+                            Restaurants restaurant = listOfRestaurants![index];
                             return CustomListTile(
                               restaurant: restaurant,
-                              // restaurant: Restaurants(
-                              //     id: 1,
-                              //     name: "El Z3ama",
-                              //     description: "serving high-quality d7k",
-                              //     latitude: 12.3,
-                              //     longitude: 12.3,
-                              //     logo: "",
-                              //     coverImage: "",
-                              //     distance: "12",
-                              //     isOpen: true,
-                              //     workingHours: "12 -11",
-                              //     types: []),
                             );
                           });
                     }
@@ -144,6 +144,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final listOfRestaurants =
+        Provider.of<RestaurantsProvider>(context).listOfRestaurants;
     var rightActions = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -162,7 +164,59 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
     var leftActions = Row(
       mainAxisSize: MainAxisSize.min,
-      children: [],
+      children: [
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      child: listOfRestaurants == null
+                          ? Container(
+                              height: 50,
+                              width: 50,
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: (listOfRestaurants.types ?? []).length,
+                              itemBuilder: (context, index) {
+                                bool isSelected =
+                                    Provider.of<RestaurantsProvider>(context)
+                                        .selectedTypes
+                                        .contains(
+                                            listOfRestaurants.types![index]);
+                                return Container(
+                                  height: 50,
+                                  child: CheckboxListTile(
+                                    value: isSelected,
+                                    onChanged: (newCheck) {
+                                      Provider.of<RestaurantsProvider>(context,
+                                              listen: false)
+                                          .addType(
+                                              listOfRestaurants.types![index]);
+                                    },
+                                    title: Text(listOfRestaurants!
+                                        .types![index]!.name
+                                        .toString()),
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+          icon: Icon(Icons.filter_list_alt),
+        ),
+      ],
     );
     final fullWidth = MediaQuery.of(context).size.width;
     final List<Widget> imageSliders = banners
