@@ -4,8 +4,9 @@ import 'package:food_delivery_app/providers/location_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -82,6 +83,12 @@ class _SplashScreenState extends State<SplashScreen> {
             onEnd: () async {
               await Future.delayed(
                 Duration(milliseconds: 250),
+                () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  Provider.of<AppPropertiesProvider>(context, listen: false)
+                      .language = prefs.getString("lang") ?? "en";
+                },
               );
               Navigator.push(context, LoginScreenRoute());
             },

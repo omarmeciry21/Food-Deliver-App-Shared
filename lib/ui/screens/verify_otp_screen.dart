@@ -5,6 +5,7 @@ import 'package:food_delivery_app/data/models/auth/verify_otp.dart';
 import 'package:food_delivery_app/data/models/auth/verify_otp_response.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/ui/screens/home_screen.dart';
+import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -78,6 +79,8 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
+                  Expanded(child: Container()),
+                  LanguagesCustomWidget(),
                 ],
               ),
             ),

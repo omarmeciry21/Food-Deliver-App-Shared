@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/models/list_of_restaurants.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/location_api.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/addresses_screen.dart';
+import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +28,7 @@ class RestaurantsScreen extends StatelessWidget {
   RestaurantsScreen({Key? key}) : super(key: key);
   int bannerheightFactor = 0;
 
-  Future<List<Restaurants>> getUserDetailsAndRestaurants(
+  Future<ListOfRestaurants> getUserDetailsAndRestaurants(
       BuildContext context) async {
     LocationData locationData = await LocationAPI.getCurrentLocation()
         .onError((Exception error, stackTrace) => throw (error));
@@ -37,11 +39,12 @@ class RestaurantsScreen extends StatelessWidget {
             lon: locationData.longitude ?? 46.7,
             language: Provider.of<AppPropertiesProvider>(context, listen: false)
                 .language);
+    print(Provider.of<RestaurantsProvider>(context, listen: false)
+        .listOfRestaurants!
+        .toJson()["banners"]);
 
     return Provider.of<RestaurantsProvider>(context, listen: false)
-            .listOfRestaurants!
-            .restaurants ??
-        [];
+        .listOfRestaurants!;
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); // Create a key
@@ -66,36 +69,45 @@ class RestaurantsScreen extends StatelessWidget {
                   Icons.location_on,
                   color: Theme.of(context).primaryColor,
                 ),
-                title: Text("Addresses"),
+                title: Text(Provider.of<AppPropertiesProvider>(context)
+                    .strings["addresses"]
+                    .toString()),
               ),
-            )
+            ),
+            LanguagesCustomWidget()
           ],
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(scaffoldKey: scaffoldKey),
-            Expanded(
-              child: FutureBuilder<List<Restaurants>>(
-                  future: getUserDetailsAndRestaurants(context),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      print(snapshot.error);
-                      return Center(
-                        child: Text(
-                          snapshot.error.toString(),
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      List<Restaurants> listOfRestaurants =
-                          Provider.of<RestaurantsProvider>(context)
-                                  .displayedRestaurants ??
-                              [];
-                      return ListView.builder(
+        child: FutureBuilder<ListOfRestaurants>(
+            future: getUserDetailsAndRestaurants(context),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print(snapshot.error);
+                return Center(
+                  child: Text(
+                    snapshot.error.toString(),
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
+                  ),
+                );
+              }
+              if (snapshot.hasData) {
+                List<Restaurants> listOfRestaurants =
+                    Provider.of<RestaurantsProvider>(context)
+                            .listOfRestaurants!
+                            .restaurants ??
+                        [];
+                return Column(
+                  children: [
+                    CustomAppBar(
+                      scaffoldKey: scaffoldKey,
+                      banners: (snapshot.data!.banners ?? [])
+                          .map((e) => e.image.toString())
+                          .toList(),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
                           itemCount: listOfRestaurants != null
                               ? listOfRestaurants!.length
                               : 0,
@@ -105,17 +117,17 @@ class RestaurantsScreen extends StatelessWidget {
                             return CustomListTile(
                               restaurant: restaurant,
                             );
-                          });
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).accentColor,
-                      ),
-                    );
-                  }),
-            ),
-          ],
-        ),
+                          }),
+                    ),
+                  ],
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).accentColor,
+                ),
+              );
+            }),
       ),
     );
   }
@@ -125,8 +137,10 @@ class CustomAppBar extends StatefulWidget {
   CustomAppBar({
     Key? key,
     required this.scaffoldKey,
+    required this.banners,
   }) : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldKey; // Create a key
+  final List<String> banners;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -134,11 +148,6 @@ class CustomAppBar extends StatefulWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   bool isBannerOpen = false;
-  List<String> banners = [
-    "https://www.bdtask.com/blog/uploads/restaurant-food-combo-offers.jpg",
-    "https://cdn.grabon.in/gograbon/images/category/1546252575451.png",
-    "https://chandigarhmetro.com/wp-content/uploads/2021/07/HDFC.jpg",
-  ];
   int _current = 0;
   var _controller = CarouselController();
 
@@ -156,7 +165,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           icon: const Icon(
             Icons.menu_rounded,
             color: Colors.white,
-            size: 35,
+            size: 20,
           ),
         ),
       ],
@@ -165,8 +174,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
     var leftActions = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
+            widget.scaffoldKey.currentState!.setState(() {});
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Icon(
+              Icons.refresh_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -214,12 +236,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ),
             );
           },
-          icon: Icon(Icons.filter_list_alt),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Icon(
+              Icons.filter_list_alt,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
         ),
       ],
     );
     final fullWidth = MediaQuery.of(context).size.width;
-    final List<Widget> imageSliders = banners
+    final List<Widget> imageSliders = widget.banners
         .map((item) => Image.network(
               item,
               fit: BoxFit.fitWidth,
@@ -232,7 +261,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          height: 75,
+          height: 40,
           color: Theme.of(context).primaryColor,
           child: Stack(
             children: [
@@ -251,7 +280,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     Provider.of<AppPropertiesProvider>(context).appName,
                     style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 32,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -294,7 +323,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: banners.asMap().entries.map((entry) {
+                    children: widget.banners.asMap().entries.map((entry) {
                       return GestureDetector(
                         onTap: () => _controller.animateToPage(entry.key),
                         child: Container(
@@ -315,23 +344,23 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ],
           ),
         ),
-        Container(
-          height: 50,
-          color: Theme.of(context).primaryColor,
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                isBannerOpen = !isBannerOpen;
-              });
-            },
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isBannerOpen = !isBannerOpen;
+            });
+          },
+          child: Container(
+            height: 30,
+            color: Theme.of(context).primaryColor,
             child: Center(
                 child: RotatedBox(
               quarterTurns: isBannerOpen ? 2 : 0,
               child: Image.asset(
                 "assets/images/down-arrow.png",
                 color: Colors.white,
-                width: 25,
-                height: 25,
+                width: 15,
+                height: 15,
                 fit: BoxFit.cover,
               ),
             )),
@@ -393,11 +422,11 @@ class CustomListTile extends StatelessWidget {
                 restaurant.name.toString(),
                 style: TextStyle(
                   color: Colors.grey.shade700,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.start,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
               ),
@@ -408,10 +437,10 @@ class CustomListTile extends StatelessWidget {
                 types,
                 style: const TextStyle(
                   color: Colors.black54,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
                 textAlign: TextAlign.start,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
               ),
@@ -424,7 +453,7 @@ class CustomListTile extends StatelessWidget {
                         .strings["close"]!,
                 style: TextStyle(
                     color: restaurant.isOpen! ? Colors.green : Colors.red,
-                    fontSize: 18),
+                    fontSize: 14),
               ),
             ],
           ),

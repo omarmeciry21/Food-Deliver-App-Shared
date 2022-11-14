@@ -9,6 +9,7 @@ import 'package:food_delivery_app/ui/screens/verify_otp_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/dialogs.dart';
+import '../widgets/language_custom_widget.dart';
 
 class LoginScreenRoute extends CupertinoPageRoute {
   LoginScreenRoute()
@@ -43,17 +44,23 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                Provider.of<AppPropertiesProvider>(context)
-                    .strings["cancel"]
-                    .toString(),
-                style: const TextStyle(
-                    color: Colors.amber,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    Provider.of<AppPropertiesProvider>(context)
+                        .strings["cancel"]
+                        .toString(),
+                    style: const TextStyle(
+                        color: Colors.amber,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                LanguagesCustomWidget(),
+              ],
             ),
             Container(
               padding: const EdgeInsets.all(10),
@@ -192,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? null
                               : "Invalid phone number !";
                         },
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -216,6 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Expanded(child: Container()),
             SizedBox(
+              height: 50,
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                 onPressed: () async {
@@ -247,7 +256,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(Theme.of(context).accentColor),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
                 ),
                 child: Text(
                   Provider.of<AppPropertiesProvider>(context)

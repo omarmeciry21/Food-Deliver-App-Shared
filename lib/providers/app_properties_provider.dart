@@ -1,10 +1,40 @@
 import 'package:flutter/cupertino.dart';
 
 class AppPropertiesProvider extends ChangeNotifier {
-  static Map<String, String> ar_strings = {};
+  static Map<String, String> ar_strings = {
+    "cancel": "إلغاء",
+    "back": "الرجوع",
+    "home": "الرئيسية",
+    "orders": "الطلبات",
+    "others": "أخرى",
+    "enterMobileNumberTitle": "أدخل رقم هاتفك",
+    "enterMobileNumberText":
+        "أدخل رقم هاتك للدخول إلى حسابك او تسجيل حساب جديد.",
+    "continue": "إستمرار",
+    "verifyNumberTitle": "أعد تدخيل الرقم",
+    "verifyNumberText": "أدخل الكود الذي تم إرساله إلى رقم ",
+    "open": "مفتوح",
+    "close": "مغلق",
+    "anErrorOccurred": "حدث خطأ! برجاء إعادة المحاولة",
+    "addresses": "العناوين",
+    "noSessionFound": "برجاء إعادة تسجيل الدخول",
+    "newAddress": "عنوان جديد",
+    "confirmLocation": "تأكيد المكان",
+    "deliveryLocation": "مكان التوصيل",
+    "addressName": "اسم العنوان",
+    "requiredField": "برجاء إدخال هذه البيانات.",
+    "addressDetails": "برجاء إدخالا المزيد من التفاصيل حول العنوان",
+    "OK": "حسناً",
+    "cancel": "إلغاء",
+    "deleteAddressTitle": "حذف العنوان",
+    "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟"
+  };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
     "back": "Back",
+    "home": "Home",
+    "orders": "Orders",
+    "others": "Others",
     "enterMobileNumberTitle": "Enter your mobile number",
     "enterMobileNumberText":
         "Enter your mobile number to create or login you account.",
@@ -38,7 +68,7 @@ class AppPropertiesProvider extends ChangeNotifier {
 
   late Map<String, String> _strings;
 
-  Map<String, String> get strings => language == "en" ? en_strings : ar_strings;
+  Map<String, String> get strings => language == "ar" ? ar_strings : en_strings;
 
   set strings(Map<String, String> value) {
     _strings = value;

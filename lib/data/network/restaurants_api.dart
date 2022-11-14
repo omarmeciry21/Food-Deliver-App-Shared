@@ -12,6 +12,7 @@ class RestaurantAPI {
     try {
       http.Response response = await BaseAPI.get(
           uri: 'restaurant/list?languageType=$language&lat=$lat&lon=$lon');
+
       if (response.statusCode <= 299 && response.statusCode >= 200) {
         return ListOfRestaurants.fromJson(jsonDecode(response.body));
       } else {

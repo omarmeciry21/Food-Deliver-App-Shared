@@ -1,5 +1,5 @@
-import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/models/banners.dart';
+import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/models/types.dart';
 
 class ListOfRestaurants {
@@ -12,18 +12,20 @@ class ListOfRestaurants {
 
   ListOfRestaurants.fromJson(Map<String, dynamic> json) {
     status = json['status'];
+
     if (json['types'] != null) {
       types = <Types>[];
       json['types'].forEach((v) {
         types!.add(new Types.fromJson(v));
       });
     }
-    if (json['banners.dart'] != null) {
+    if (json['banners'] != null) {
       banners = <Banners>[];
-      json['banners.dart'].forEach((v) {
+      json['banners'].forEach((v) {
         banners!.add(new Banners.fromJson(v));
       });
     }
+
     if (json['restaurants'] != null) {
       restaurants = <Restaurants>[];
       json['restaurants'].forEach((v) {
@@ -39,7 +41,7 @@ class ListOfRestaurants {
       data['types'] = this.types!.map((v) => v.toJson()).toList();
     }
     if (this.banners != null) {
-      data['banners.dart'] = this.banners!.map((v) => v.toJson()).toList();
+      data['banners'] = this.banners!.map((v) => v.toJson()).toList();
     }
     if (this.restaurants != null) {
       data['restaurants'] = this.restaurants!.map((v) => v.toJson()).toList();
