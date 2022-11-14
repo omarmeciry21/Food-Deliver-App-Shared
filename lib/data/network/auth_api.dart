@@ -136,7 +136,7 @@ class AuthAPI {
         throw ("${response.statusCode} - ${response.body}");
       }
     } catch (e) {
-      throw ("Exception in AUTHAPI->verifyOTP: " + e.toString());
+      throw ("Exception in AUTHAPI->getUserDetails: " + e.toString());
     }
   }
 }

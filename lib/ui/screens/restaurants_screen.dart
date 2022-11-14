@@ -24,8 +24,14 @@ class RestaurantsScreenRoute extends CupertinoPageRoute {
   }
 }
 
-class RestaurantsScreen extends StatelessWidget {
+class RestaurantsScreen extends StatefulWidget {
   RestaurantsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RestaurantsScreen> createState() => _RestaurantsScreenState();
+}
+
+class _RestaurantsScreenState extends State<RestaurantsScreen> {
   int bannerheightFactor = 0;
 
   Future<ListOfRestaurants> getUserDetailsAndRestaurants(
@@ -47,37 +53,14 @@ class RestaurantsScreen extends StatelessWidget {
         .listOfRestaurants!;
   }
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); // Create a key
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.4 < 200
-            ? 200
-            : MediaQuery.of(context).size.width * 0.4,
-        child: ListView(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddressesScreen()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.location_on,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(Provider.of<AppPropertiesProvider>(context)
-                    .strings["addresses"]
-                    .toString()),
-              ),
-            ),
-            LanguagesCustomWidget()
-          ],
-        ),
-      ),
+      drawer: _buildDrawer(context),
+      endDrawer: _buildDrawer(context),
       body: SafeArea(
         child: FutureBuilder<ListOfRestaurants>(
             future: getUserDetailsAndRestaurants(context),
@@ -95,17 +78,18 @@ class RestaurantsScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 List<Restaurants> listOfRestaurants =
                     Provider.of<RestaurantsProvider>(context)
-                            .listOfRestaurants!
-                            .restaurants ??
+                            .displayedRestaurants ??
                         [];
                 return Column(
                   children: [
                     CustomAppBar(
-                      scaffoldKey: scaffoldKey,
-                      banners: (snapshot.data!.banners ?? [])
-                          .map((e) => e.image.toString())
-                          .toList(),
-                    ),
+                        scaffoldKey: scaffoldKey,
+                        banners: (snapshot.data!.banners ?? [])
+                            .map((e) => e.image.toString())
+                            .toList(),
+                        refreshFunc: () {
+                          setState(() {});
+                        }),
                     Expanded(
                       child: ListView.builder(
                           itemCount: listOfRestaurants != null
@@ -131,16 +115,46 @@ class RestaurantsScreen extends StatelessWidget {
       ),
     );
   }
+
+  Drawer _buildDrawer(BuildContext context) {
+    return Drawer(
+      width: MediaQuery.of(context).size.width * 0.4 < 200
+          ? 200
+          : MediaQuery.of(context).size.width * 0.4,
+      child: ListView(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddressesScreen()));
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.location_on,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(Provider.of<AppPropertiesProvider>(context)
+                  .strings["addresses"]
+                  .toString()),
+            ),
+          ),
+          LanguagesCustomWidget()
+        ],
+      ),
+    );
+  }
 }
 
 class CustomAppBar extends StatefulWidget {
   CustomAppBar({
     Key? key,
     required this.scaffoldKey,
+    required this.refreshFunc,
     required this.banners,
   }) : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldKey; // Create a key
   final List<String> banners;
+  final void Function() refreshFunc;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -160,7 +174,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            widget.scaffoldKey.currentState!.openDrawer();
+            Provider.of<AppPropertiesProvider>(context, listen: false)
+                        .language ==
+                    "en"
+                ? widget.scaffoldKey.currentState!.openDrawer()
+                : widget.scaffoldKey.currentState!.openEndDrawer();
           },
           icon: const Icon(
             Icons.menu_rounded,
@@ -174,19 +192,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
     var leftActions = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          onTap: () {
-            widget.scaffoldKey.currentState!.setState(() {});
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: const Icon(
-              Icons.refresh_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => widget.refreshFunc(),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: const Icon(
+        //       Icons.refresh_rounded,
+        //       color: Colors.white,
+        //       size: 20,
+        //     ),
+        //   ),
+        // ),
         GestureDetector(
           onTap: () {
             showDialog(
@@ -204,31 +220,73 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 color: Theme.of(context).accentColor,
                               ),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: (listOfRestaurants.types ?? []).length,
-                              itemBuilder: (context, index) {
-                                bool isSelected =
-                                    Provider.of<RestaurantsProvider>(context)
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      (listOfRestaurants.types ?? []).length,
+                                  itemBuilder: (context, index) {
+                                    bool isSelected = Provider.of<
+                                            RestaurantsProvider>(context)
                                         .selectedTypes
-                                        .contains(
-                                            listOfRestaurants.types![index]);
-                                return Container(
-                                  height: 50,
-                                  child: CheckboxListTile(
-                                    value: isSelected,
-                                    onChanged: (newCheck) {
-                                      Provider.of<RestaurantsProvider>(context,
-                                              listen: false)
-                                          .addType(
-                                              listOfRestaurants.types![index]);
-                                    },
-                                    title: Text(listOfRestaurants!
-                                        .types![index]!.name
-                                        .toString()),
+                                        .where((element) =>
+                                            element.id ==
+                                            listOfRestaurants.types![index].id)
+                                        .toList()
+                                        .isNotEmpty;
+                                    return Container(
+                                      height: 50,
+                                      child: CheckboxListTile(
+                                        value: isSelected,
+                                        onChanged: (newCheck) {
+                                          if (newCheck ?? true)
+                                            Provider.of<RestaurantsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addType(listOfRestaurants
+                                                    .types![index]);
+                                          else {
+                                            print("Pressed  ");
+                                            Provider.of<RestaurantsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .removeType(listOfRestaurants
+                                                    .types![index]);
+                                          }
+                                        },
+                                        title: Text(listOfRestaurants!
+                                            .types![index]!.name
+                                            .toString()),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 35,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context).accentColor),
+                                    ),
+                                    child: Text(
+                                      Provider.of<AppPropertiesProvider>(
+                                              context)
+                                          .strings["filter"]
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                );
-                              },
+                                ),
+                              ],
                             ),
                     ),
                   ],
@@ -268,10 +326,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    rightActions,
-                    leftActions,
-                  ],
+                  children:
+                      Provider.of<AppPropertiesProvider>(context).language ==
+                              "en"
+                          ? [rightActions, leftActions]
+                          : [leftActions, rightActions],
                 ),
               ),
               Center(
@@ -466,11 +525,13 @@ class CustomListTile extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.location_on_outlined,
-                    size: 18,
-                    color: Colors.grey,
-                  ),
+                  restaurant.distance == null || restaurant.distance == ""
+                      ? Container()
+                      : Icon(
+                          Icons.location_on_outlined,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
                   SizedBox(
                     width: 10,
                   ),

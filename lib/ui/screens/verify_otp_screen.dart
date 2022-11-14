@@ -124,173 +124,156 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
               key: _formKey,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin1Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin1Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin2Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin2Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin3Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin3Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin4Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin4Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin5Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin5Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: 60,
-                      height: 70,
-                      child: TextFormField(
-                        controller: pin6Controller,
-                        onChanged: (newVal) {
-                          if (newVal.length == 1) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                        validator: (v) => (v ?? "").length == 0 ? "" : null,
-                        onSaved: (pin1) {},
-                        decoration: InputDecoration(
-                            hintText: "X",
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26))),
-                        style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
+                  Container(
+                    width: 40,
+                    height: 70,
+                    child: TextFormField(
+                      controller: pin6Controller,
+                      onChanged: (newVal) {
+                        if (newVal.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (v) => (v ?? "").length == 0 ? "" : null,
+                      onSaved: (pin1) {},
+                      decoration: InputDecoration(
+                          hintText: "X",
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black26))),
+                      style: Theme.of(context).textTheme.headline4,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
                   ),
                 ],
@@ -298,6 +281,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
             ),
             Expanded(child: Container()),
             SizedBox(
+              height: 50,
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                 onPressed: () async {
@@ -339,7 +323,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(Theme.of(context).accentColor),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(8)),
                 ),
                 child: Text(
                   Provider.of<AppPropertiesProvider>(context)

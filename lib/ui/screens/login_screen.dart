@@ -95,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
@@ -187,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     width: 200,
                     child: Form(
                       key: _formKey,

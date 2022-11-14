@@ -4,6 +4,7 @@ class AppPropertiesProvider extends ChangeNotifier {
   static Map<String, String> ar_strings = {
     "cancel": "إلغاء",
     "back": "الرجوع",
+    "filter": "تصفية",
     "home": "الرئيسية",
     "orders": "الطلبات",
     "others": "أخرى",
@@ -31,6 +32,7 @@ class AppPropertiesProvider extends ChangeNotifier {
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
+    "filter": "Filter",
     "back": "Back",
     "home": "Home",
     "orders": "Orders",
@@ -63,6 +65,9 @@ class AppPropertiesProvider extends ChangeNotifier {
 
   set language(String value) {
     _language = value;
+    _onLangChangedList.forEach((element) {
+      element();
+    });
     notifyListeners();
   }
 
@@ -77,4 +82,9 @@ class AppPropertiesProvider extends ChangeNotifier {
 
   final String appName = "Food Delivery";
   String logoImg = "assets/images/food-delivery.png";
+
+  List<Function> _onLangChangedList = [];
+  void addOnLangChanged(void Function() function) {
+    _onLangChangedList.add(function);
+  }
 }

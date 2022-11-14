@@ -15,13 +15,14 @@ class RestaurantsProvider extends ChangeNotifier {
   }
 
   List<Restaurants>? get displayedRestaurants {
+    if (selectedTypes.isEmpty) return listOfRestaurants!.restaurants ?? [];
     return listOfRestaurants?.restaurants?.where((element) {
       print(element.toJson());
 
       return element.types!.length == 0
           ? false
           : selectedTypes
-              .where((element2) => element2 == element.types!.first.id)
+              .where((element2) => element2.id == element.types!.first.id)
               .toList()
               .isNotEmpty;
     }).toList();
@@ -42,7 +43,7 @@ class RestaurantsProvider extends ChangeNotifier {
   }
 
   removeType(Types t) {
-    selectedTypes.remove(t);
+    selectedTypes.removeWhere((element) => element.id == t.id);
     notifyListeners();
   }
 }

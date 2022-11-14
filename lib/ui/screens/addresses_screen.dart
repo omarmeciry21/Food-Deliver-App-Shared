@@ -20,26 +20,26 @@ class AddressesScreen extends StatefulWidget {
 
 class _AddressesScreenState extends State<AddressesScreen> {
   _appBar(BuildContext context) {
+    final list = [
+      IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+              Provider.of<AppPropertiesProvider>(context).language == "en"
+                  ? Icons.arrow_back_rounded
+                  : Icons.arrow_forward_rounded)),
+      IconButton(
+          onPressed: () => setState(() {}), icon: Icon(Icons.refresh_rounded))
+    ];
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                ),
-              ),
-              IconButton(
-                onPressed: () => setState(() {}),
-                icon: Icon(
-                  Icons.refresh_rounded,
-                ),
-              ),
-            ],
+            children:
+                Provider.of<AppPropertiesProvider>(context).language == "en"
+                    ? list
+                    : list.reversed.toList(),
           ),
           Container(
             padding: EdgeInsets.all(16),

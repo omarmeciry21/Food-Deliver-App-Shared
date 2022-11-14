@@ -24,6 +24,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  final screens = [RestaurantsScreen(), Container(), Container()];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentIndex =
+        Provider.of<AppPropertiesProvider>(context, listen: false).language ==
+                "en"
+            ? _currentIndex
+            : 2 - _currentIndex;
+    Provider.of<AppPropertiesProvider>(context, listen: false)
+        .addOnLangChanged(() {
+      if (_currentIndex == 2)
+        _currentIndex = 0;
+      else if (_currentIndex == 0) _currentIndex = 2;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ? itemsList
               : itemsList.reversed.toList()),
       body: SafeArea(
-        child: [RestaurantsScreen(), Container(), Container()][_currentIndex],
+        child: (Provider.of<AppPropertiesProvider>(context).language == "en"
+            ? screens
+            : screens.reversed.toList())[_currentIndex],
       ),
     );
   }
