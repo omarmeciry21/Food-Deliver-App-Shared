@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/location_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
+import 'package:food_delivery_app/ui/screens/home_screen.dart';
 import 'package:food_delivery_app/ui/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,9 +89,15 @@ class _SplashScreenState extends State<SplashScreen> {
                       await SharedPreferences.getInstance();
                   Provider.of<AppPropertiesProvider>(context, listen: false)
                       .language = prefs.getString("lang") ?? "en";
+                  String session = prefs.getString("session") ?? "";
+                  if (session != "") {
+                    Navigator.pushReplacement(context, LoginScreenRoute());
+                    Navigator.push(context, HomeScreenRoute());
+                  } else {
+                    Navigator.pushReplacement(context, LoginScreenRoute());
+                  }
                 },
               );
-              Navigator.push(context, LoginScreenRoute());
             },
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Future<dynamic> showLoadingDialog(BuildContext context) {
   return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
             content: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(

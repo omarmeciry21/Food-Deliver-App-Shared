@@ -5,6 +5,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "cancel": "إلغاء",
     "back": "الرجوع",
     "filter": "تصفية",
+    "logout": "تسجيل الخروج",
     "home": "الرئيسية",
     "orders": "الطلبات",
     "others": "أخرى",
@@ -33,6 +34,7 @@ class AppPropertiesProvider extends ChangeNotifier {
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
     "filter": "Filter",
+    "logout": "Log Out",
     "back": "Back",
     "home": "Home",
     "orders": "Orders",

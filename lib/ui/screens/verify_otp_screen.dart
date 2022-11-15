@@ -309,7 +309,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                         .setString("session", response.user!.session ?? "");
                     Navigator.pop(context);
                     if (response.status ?? false) {
-                      Navigator.push(context, HomeScreenRoute());
+                      Navigator.pushReplacement(context, HomeScreenRoute());
                     } else {
                       print(response.toJson());
                       showErrorDialog(context,

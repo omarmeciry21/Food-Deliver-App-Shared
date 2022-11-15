@@ -11,6 +11,7 @@ import 'package:food_delivery_app/ui/screens/addresses_screen.dart';
 import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RestaurantsScreenRoute extends CupertinoPageRoute {
   RestaurantsScreenRoute()
@@ -59,8 +60,15 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: _buildDrawer(context),
-      endDrawer: _buildDrawer(context),
+      drawer: Row(
+        mainAxisAlignment:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+        children: [
+          _buildDrawer(context),
+        ],
+      ),
       body: SafeArea(
         child: FutureBuilder<ListOfRestaurants>(
             future: getUserDetailsAndRestaurants(context),
@@ -116,30 +124,54 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
     );
   }
 
-  Drawer _buildDrawer(BuildContext context) {
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.4 < 200
-          ? 200
-          : MediaQuery.of(context).size.width * 0.4,
-      child: ListView(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddressesScreen()));
-            },
-            child: ListTile(
-              leading: Icon(
-                Icons.location_on,
-                color: Theme.of(context).primaryColor,
+  Directionality _buildDrawer(BuildContext context) {
+    return Directionality(
+      textDirection:
+          Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+      child: Drawer(
+        width: MediaQuery.of(context).size.width * 0.4 < 200
+            ? 200
+            : MediaQuery.of(context).size.width * 0.4,
+        child: ListView(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddressesScreen()));
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.location_on,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(Provider.of<AppPropertiesProvider>(context)
+                    .strings["addresses"]
+                    .toString()),
               ),
-              title: Text(Provider.of<AppPropertiesProvider>(context)
-                  .strings["addresses"]
-                  .toString()),
             ),
-          ),
-          LanguagesCustomWidget()
-        ],
+            GestureDetector(
+              onTap: () async {
+                await (await SharedPreferences.getInstance()).remove("session");
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.location_on,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  Provider.of<AppPropertiesProvider>(context)
+                      .strings["logout"]
+                      .toString(),
+                ),
+              ),
+            ),
+            LanguagesCustomWidget()
+          ],
+        ),
       ),
     );
   }
@@ -174,11 +206,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            Provider.of<AppPropertiesProvider>(context, listen: false)
-                        .language ==
-                    "en"
-                ? widget.scaffoldKey.currentState!.openDrawer()
-                : widget.scaffoldKey.currentState!.openEndDrawer();
+            widget.scaffoldKey.currentState!.openDrawer();
           },
           icon: const Icon(
             Icons.menu_rounded,

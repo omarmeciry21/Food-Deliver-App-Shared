@@ -119,9 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               countries.add(element1);
                             }
                           });
-                          selectedCode = countries!.length == 0
-                              ? selectedCode
-                              : countries!.first!.countryCode!;
                         }
                         return DropdownButton<String>(
                           value: selectedCode,
@@ -173,9 +170,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                 }).toList(),
                           onChanged: (String? newValue) {
-                            setState(() {
-                              selectedCode = newValue.toString();
-                            });
+                            selectedCode = newValue.toString();
+                            setState(() {});
+                            print(newValue.toString());
+                            print(selectedCode);
                           },
                           borderRadius: BorderRadius.circular(10),
                           icon: Icon(
@@ -249,6 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             phoneCode: selectedCode,
                             phoneNum: phoneNumberController.text),
                       );
+                      phoneNumberController.clear();
                     } else {
                       print(response.toJson());
                     }
