@@ -8,10 +8,13 @@ import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/addresses_screen.dart';
+import 'package:food_delivery_app/ui/screens/restaurant_details_screen.dart';
 import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/global_app_bar.dart';
 
 class RestaurantsScreenRoute extends CupertinoPageRoute {
   RestaurantsScreenRoute()
@@ -106,8 +109,18 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                           // itemCount: 5,
                           itemBuilder: (context, index) {
                             Restaurants restaurant = listOfRestaurants![index];
-                            return CustomListTile(
-                              restaurant: restaurant,
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                RestaurantDetailsScreenRoute(),
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.white,
+                                child: CustomRestaurantListTile(
+                                  restaurant: restaurant,
+                                ),
+                              ),
                             );
                           }),
                     ),
@@ -349,31 +362,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
         Container(
           height: 40,
           color: Theme.of(context).primaryColor,
-          child: Stack(
-            children: [
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:
-                      Provider.of<AppPropertiesProvider>(context).language ==
-                              "en"
-                          ? [rightActions, leftActions]
-                          : [leftActions, rightActions],
-                ),
-              ),
-              Center(
-                child: Container(
-                  child: Text(
-                    Provider.of<AppPropertiesProvider>(context).appName,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: GlobalAppBar(
+              rightActions: rightActions, leftActions: leftActions),
         ),
         AnimatedContainer(
           duration: const Duration(milliseconds: 250),
@@ -458,8 +448,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
   }
 }
 
-class CustomListTile extends StatelessWidget {
-  CustomListTile({Key? key, required this.restaurant}) : super(key: key);
+class CustomRestaurantListTile extends StatelessWidget {
+  CustomRestaurantListTile({Key? key, required this.restaurant})
+      : super(key: key);
   Restaurants restaurant;
 
   @override
