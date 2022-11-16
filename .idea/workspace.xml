@@ -9,12 +9,20 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="Finished on milestone 1 notes">
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/global_app_bar.dart" afterDir="false" />
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="Working on restaurant_details_screen.dart">
+      <change afterPath="$PROJECT_DIR$/lib/data/models/meals.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/constants.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/custom_restaurant_list_tile.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/location_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/location_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/add_new_address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/add_new_address.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/addresses_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/addresses_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/confirm_new_address_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/confirm_new_address_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/global_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/global_app_bar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668519949533</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Working on restaurant_details_screen.dart">
+      <created>1668521015084</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668521015084</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -157,7 +172,8 @@
     <MESSAGE value="Working on restaurants_provider.dart" />
     <MESSAGE value="Working on milestone 1 notes" />
     <MESSAGE value="Finished on milestone 1 notes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished on milestone 1 notes" />
+    <MESSAGE value="Working on restaurant_details_screen.dart" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on restaurant_details_screen.dart" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

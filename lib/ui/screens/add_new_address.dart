@@ -114,8 +114,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         final latlng = LatLng(
                             widget.locationData.latitude ?? 24.3,
                             widget.locationData.longitude ?? 46.7);
-                        GeoData place =
-                            await LocationAPI.getAddressFromLatLng(latlng);
+                        GeoData place = await LocationAPI.getAddressFromLatLng(
+                            context, latlng);
                         print(place.address.toString());
                         showAddressDetails(
                           context,
@@ -135,8 +135,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             markerId: MarkerId("currentLocation"),
                             position: newLatLng));
                         markers.removeAt(0);
-                        GeoData place =
-                            await LocationAPI.getAddressFromLatLng(newLatLng);
+                        GeoData place = await LocationAPI.getAddressFromLatLng(
+                            context, newLatLng);
                         print(place.address.toString());
                         showAddressDetails(
                           context,

@@ -28,8 +28,10 @@ class AppPropertiesProvider extends ChangeNotifier {
     "addressDetails": "برجاء إدخالا المزيد من التفاصيل حول العنوان",
     "OK": "حسناً",
     "cancel": "إلغاء",
+    "menu": "القائمة",
     "deleteAddressTitle": "حذف العنوان",
-    "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟"
+    "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟",
+    "searchMealText": "علامَّ تبحث؟",
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -58,8 +60,10 @@ class AppPropertiesProvider extends ChangeNotifier {
     "addressDetails": "Please, enter more details about delivery address.",
     "OK": "OK",
     "cancel": "cancel",
+    "menu": "Menu",
     "deleteAddressTitle": "Delete Address",
-    "deleteAddressContent": "Are you sure you want to delete this address?"
+    "deleteAddressContent": "Are you sure you want to delete this address?",
+    "searchMealText": "What are you looking for?",
   };
   String _language = "en";
 

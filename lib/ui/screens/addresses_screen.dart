@@ -66,7 +66,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
         (await AuthAPI().getUserDetails(context)).addresses ?? [];
     for (int i = 0; i < addresses.length; i++) {
       addresses[i].addressLine = (await LocationAPI.getAddressFromLatLng(
-              LatLng(addresses[i].latitude!, addresses[i].longitude!)))
+              context, LatLng(addresses[i].latitude!, addresses[i].longitude!)))
           .address;
     }
     return addresses;

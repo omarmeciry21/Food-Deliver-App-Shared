@@ -8,15 +8,18 @@ class GlobalAppBar extends StatelessWidget {
     Key? key,
     required this.rightActions,
     required this.leftActions,
+    required this.title,
   }) : super(key: key);
 
   final Widget rightActions;
   final Widget leftActions;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).primaryColor,
+      height: 40,
       child: Stack(
         children: [
           Center(
@@ -31,7 +34,7 @@ class GlobalAppBar extends StatelessWidget {
           Center(
             child: Container(
               child: Text(
-                Provider.of<AppPropertiesProvider>(context).appName,
+                title,
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,

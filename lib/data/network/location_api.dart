@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:food_delivery_app/data/models/find_place_response_model.dart';
+import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as ll;
+import 'package:provider/provider.dart';
 
 class LocationAPI {
   static const String apiKey = "AIzaSyB8Vz20OFhDQEI23HElHFSIGHmUai1xTlc";
@@ -48,12 +51,16 @@ class LocationAPI {
     }
   }
 
-  static Future<GeoData> getAddressFromLatLng(LatLng position) async {
+  static Future<GeoData> getAddressFromLatLng(
+      BuildContext context, LatLng position) async {
     try {
       return await Geocoder2.getDataFromCoordinates(
           latitude: position.latitude,
           longitude: position.longitude,
-          googleMapApiKey: apiKey);
+          googleMapApiKey: apiKey,
+          language: Provider.of<AppPropertiesProvider>(context, listen: false)
+                  .language ??
+              "en");
       // assert(placemarks.length > 0, "No placemarks found!");
       // return placemarks[0];
     } catch (e) {

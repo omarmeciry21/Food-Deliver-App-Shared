@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_properties_provider.dart';
+import '../constants.dart';
 
 class ConfirmNewAddressScreen extends StatefulWidget {
   ConfirmNewAddressScreen({
@@ -82,162 +83,152 @@ class _ConfirmNewAddressScreenState extends State<ConfirmNewAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            _appBar(context),
-            Expanded(
-              flex: 2,
-              child: Container(
-                child: GoogleMap(
-                  mapType: MapType.hybrid,
-                  initialCameraPosition: _kGooglePlex,
-                  markers: Set.of(markers),
-                  mapToolbarEnabled: false,
-                  myLocationButtonEnabled: false,
-                  myLocationEnabled: false,
-                  rotateGesturesEnabled: false,
-                  scrollGesturesEnabled: false,
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: false,
-                  liteModeEnabled: false,
-                  tiltGesturesEnabled: false,
+    return Directionality(
+      textDirection:
+          Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              _appBar(context),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: GoogleMap(
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: _kGooglePlex,
+                    markers: Set.of(markers),
+                    mapToolbarEnabled: false,
+                    myLocationButtonEnabled: false,
+                    myLocationEnabled: false,
+                    rotateGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: false,
+                    liteModeEnabled: false,
+                    tiltGesturesEnabled: false,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      Provider.of<AppPropertiesProvider>(context)
-                          .strings["deliveryLocation"]
-                          .toString(),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      child: TextFormField(
-                        controller: addressNameController,
-                        validator: (v) => v!.length == 0
-                            ? Provider.of<AppPropertiesProvider>(context,
-                                    listen: false)
-                                .strings['requiredField']
-                                .toString()
-                            : null,
-                        decoration: InputDecoration(
-                          hintText: Provider.of<AppPropertiesProvider>(context)
-                              .strings['addressName']
-                              .toString(),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      widget.name.toString(),
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      widget.details,
-                      style: TextStyle(color: Colors.black87, fontSize: 14),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      child: TextFormField(
-                        controller: addressDetailsController,
-                        validator: (v) => v!.length == 0
-                            ? Provider.of<AppPropertiesProvider>(context,
-                                    listen: false)
-                                .strings['requiredField']
-                                .toString()
-                            : null,
-                        decoration: InputDecoration(
-                          hintText: Provider.of<AppPropertiesProvider>(context)
-                              .strings['addressDetails']
-                              .toString(),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.resolveWith(
-                          (states) =>
-                              Size(MediaQuery.of(context).size.width - 32, 30),
-                        ),
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => Theme.of(context).accentColor),
-                      ),
-                      onPressed: () async {
-                        //TODO
-                        if (_formKey.currentState!.validate()) {
-                          showLoadingDialog(context);
-                          await AuthAPI().addAddress(
-                            context: context,
-                            addressLabel: addressNameController.text,
-                            addressDetails: addressDetailsController.text,
-                            lat: widget.lat,
-                            lng: widget.lng,
-                          );
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         Provider.of<AppPropertiesProvider>(context)
-                            .strings["confirmLocation"]
+                            .strings["deliveryLocation"]
                             .toString(),
                         style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        child: TextFormField(
+                          controller: addressNameController,
+                          validator: (v) => v!.length == 0
+                              ? Provider.of<AppPropertiesProvider>(context,
+                                      listen: false)
+                                  .strings['requiredField']
+                                  .toString()
+                              : null,
+                          decoration: kBorderOutlinedInputDecoration(
+                              context: context,
+                              hintText:
+                                  Provider.of<AppPropertiesProvider>(context)
+                                      .strings['addressName']
+                                      .toString()),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        widget.name.toString(),
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        widget.details,
+                        style: TextStyle(color: Colors.black87, fontSize: 14),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        child: TextFormField(
+                          controller: addressDetailsController,
+                          validator: (v) => v!.length == 0
+                              ? Provider.of<AppPropertiesProvider>(context,
+                                      listen: false)
+                                  .strings['requiredField']
+                                  .toString()
+                              : null,
+                          decoration: kBorderOutlinedInputDecoration(
+                              context: context,
+                              hintText:
+                                  Provider.of<AppPropertiesProvider>(context)
+                                      .strings['addressDetails']
+                                      .toString()),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          fixedSize: MaterialStateProperty.resolveWith(
+                            (states) => Size(
+                                MediaQuery.of(context).size.width - 32, 30),
+                          ),
+                          backgroundColor: MaterialStateColor.resolveWith(
+                              (states) => Theme.of(context).accentColor),
+                        ),
+                        onPressed: () async {
+                          //TODO
+                          if (_formKey.currentState!.validate()) {
+                            showLoadingDialog(context);
+                            await AuthAPI().addAddress(
+                              context: context,
+                              addressLabel: addressNameController.text,
+                              addressDetails: addressDetailsController.text,
+                              lat: widget.lat,
+                              lng: widget.lng,
+                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text(
+                          Provider.of<AppPropertiesProvider>(context)
+                              .strings["confirmLocation"]
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

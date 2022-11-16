@@ -14,6 +14,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/custom_restaurant_list_tile.dart';
 import '../widgets/global_app_bar.dart';
 
 class RestaurantsScreenRoute extends CupertinoPageRoute {
@@ -72,67 +73,94 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           _buildDrawer(context),
         ],
       ),
-      body: SafeArea(
-        child: FutureBuilder<ListOfRestaurants>(
-            future: getUserDetailsAndRestaurants(context),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print(snapshot.error);
+      endDrawer: Row(
+        mainAxisAlignment:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+        children: [
+          _buildDrawer(context),
+        ],
+      ),
+      body: Directionality(
+        textDirection:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+        child: SafeArea(
+          child: FutureBuilder<ListOfRestaurants>(
+              future: getUserDetailsAndRestaurants(context),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return Center(
+                    child: Text(
+                      snapshot.error.toString(),
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }
+                if (snapshot.hasData) {
+                  List<Restaurants> listOfRestaurants =
+                      Provider.of<RestaurantsProvider>(context)
+                              .displayedRestaurants ??
+                          [];
+                  return Column(
+                    children: [
+                      CustomAppBar(
+                          scaffoldKey: scaffoldKey,
+                          banners: (snapshot.data!.banners ?? [])
+                              .map((e) => e.image.toString())
+                              .toList(),
+                          refreshFunc: () {
+                            setState(() {});
+                          }),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: listOfRestaurants != null
+                                ? listOfRestaurants!.length
+                                : 0,
+                            // itemCount: 5,
+                            itemBuilder: (context, index) {
+                              Restaurants restaurant =
+                                  listOfRestaurants![index];
+                              return GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  RestaurantDetailsScreenRoute(
+                                      restaurant: restaurant),
+                                ),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.transparent,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        color: Colors.grey.shade300,
+                                        height: 3,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                      CustomRestaurantListTile(
+                                        restaurant: restaurant,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  );
+                }
                 return Center(
-                  child: Text(
-                    snapshot.error.toString(),
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
                   ),
                 );
-              }
-              if (snapshot.hasData) {
-                List<Restaurants> listOfRestaurants =
-                    Provider.of<RestaurantsProvider>(context)
-                            .displayedRestaurants ??
-                        [];
-                return Column(
-                  children: [
-                    CustomAppBar(
-                        scaffoldKey: scaffoldKey,
-                        banners: (snapshot.data!.banners ?? [])
-                            .map((e) => e.image.toString())
-                            .toList(),
-                        refreshFunc: () {
-                          setState(() {});
-                        }),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: listOfRestaurants != null
-                              ? listOfRestaurants!.length
-                              : 0,
-                          // itemCount: 5,
-                          itemBuilder: (context, index) {
-                            Restaurants restaurant = listOfRestaurants![index];
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                RestaurantDetailsScreenRoute(),
-                              ),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                color: Colors.white,
-                                child: CustomRestaurantListTile(
-                                  restaurant: restaurant,
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).accentColor,
-                ),
-              );
-            }),
+              }),
+        ),
       ),
     );
   }
@@ -172,7 +200,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
               },
               child: ListTile(
                 leading: Icon(
-                  Icons.location_on,
+                  Icons.exit_to_app_rounded,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
@@ -219,7 +247,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            widget.scaffoldKey.currentState!.openDrawer();
+            Provider.of<AppPropertiesProvider>(context, listen: false)
+                        .language ==
+                    "en"
+                ? widget.scaffoldKey.currentState!.openDrawer()
+                : widget.scaffoldKey.currentState!.openEndDrawer();
           },
           icon: const Icon(
             Icons.menu_rounded,
@@ -359,11 +391,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          height: 40,
-          color: Theme.of(context).primaryColor,
-          child: GlobalAppBar(
-              rightActions: rightActions, leftActions: leftActions),
+        GlobalAppBar(
+          rightActions: rightActions,
+          leftActions: leftActions,
+          title: Provider.of<AppPropertiesProvider>(context).appName,
         ),
         AnimatedContainer(
           duration: const Duration(milliseconds: 250),
@@ -444,166 +475,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class CustomRestaurantListTile extends StatelessWidget {
-  CustomRestaurantListTile({Key? key, required this.restaurant})
-      : super(key: key);
-  Restaurants restaurant;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          color: Colors.grey.shade300,
-          height: 3,
-          width: MediaQuery.of(context).size.width,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          child: Row(
-            children: [
-              _buildImage(),
-              const SizedBox(width: 20),
-              Expanded(child: _buildInfo(context)),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInfo(BuildContext context) {
-    String types = (restaurant.types ?? [])
-        .map((e) => e.name)
-        .toList()!
-        .join(", ")
-        .toString();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: 80,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                restaurant.name.toString(),
-                style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.start,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                types,
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 12,
-                ),
-                textAlign: TextAlign.start,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              ),
-              Expanded(child: Container()),
-              Text(
-                restaurant.isOpen!
-                    ? Provider.of<AppPropertiesProvider>(context)
-                        .strings["open"]!
-                    : Provider.of<AppPropertiesProvider>(context)
-                        .strings["close"]!,
-                style: TextStyle(
-                    color: restaurant.isOpen! ? Colors.green : Colors.red,
-                    fontSize: 14),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 80,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  restaurant.distance == null || restaurant.distance == ""
-                      ? Container()
-                      : Icon(
-                          Icons.location_on_outlined,
-                          size: 18,
-                          color: Colors.grey,
-                        ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    restaurant.distance ?? "",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Expanded(child: Container()),
-              Text(
-                restaurant.workingHours.toString(),
-                style: TextStyle(
-                    color: Colors.black38,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container _buildImage() {
-    return Container(
-      height: 80,
-      width: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: FadeInImage(
-          image: NetworkImage(
-            restaurant.logo!,
-          ),
-          placeholder: AssetImage(
-            "assets/images/food-delivery.png",
-          ),
-          imageErrorBuilder: (context, _, error) => Image(
-            image: AssetImage(
-              "assets/images/food-delivery.png",
-            ),
-          ),
-          height: 80,
-          width: 80,
-          fit: BoxFit.cover,
-        ),
-      ),
     );
   }
 }
