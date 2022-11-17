@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
+import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/ui/screens/meal_details_screen.dart';
 import 'package:food_delivery_app/ui/widgets/custom_restaurant_list_tile.dart';
 import 'package:food_delivery_app/ui/widgets/global_app_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/models/meals.dart';
 import '../../providers/app_properties_provider.dart';
 
 class RestaurantDetailsScreenRoute extends CupertinoPageRoute {
@@ -82,65 +83,71 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 .strings["menu"]
                 .toString(),
           ),
-          Directionality(
-            textDirection:
-                Provider.of<AppPropertiesProvider>(context).language == "en"
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
-            child: Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(8),
-                color: Colors.grey.shade200,
-                child: ListView(
-                  controller: controller,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
+          Expanded(
+            child: FutureBuilder<RestaurantDetailsResponse>(
+                future: RestaurantAPI.getRestaurantDetails(
+                    restaurantId: widget.restaurant.id!,
+                    language:
+                        Provider.of<AppPropertiesProvider>(context).language),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        snapshot.error.toString(),
+                        style: TextStyle(color: Colors.red),
                       ),
-                      child: CustomRestaurantListTile(
-                          restaurant: widget.restaurant),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    buildSearchMealsTextField(context),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    buildMeals(meals: [
-                      Meals(
-                          image:
-                              "https://media.istockphoto.com/id/1188412964/photo/hamburger-with-cheese-and-french-fries.jpg?s=612x612&w=0&k=20&c=lmJ0qUjC3FtCrWOGU0hWvqBgXcKZ1imiXKOMuHRfFH8=",
-                          name: "Meal 1",
-                          price: "28"),
-                      Meals(
-                          image:
-                              "https://media.istockphoto.com/id/1188412964/photo/hamburger-with-cheese-and-french-fries.jpg?s=612x612&w=0&k=20&c=lmJ0qUjC3FtCrWOGU0hWvqBgXcKZ1imiXKOMuHRfFH8=",
-                          name: "Meal 1",
-                          price: "28"),
-                      Meals(
-                          image:
-                              "https://media.istockphoto.com/id/1188412964/photo/hamburger-with-cheese-and-french-fries.jpg?s=612x612&w=0&k=20&c=lmJ0qUjC3FtCrWOGU0hWvqBgXcKZ1imiXKOMuHRfFH8=",
-                          name: "Meal 1",
-                          price: "28"),
-                      Meals(
-                          image:
-                              "https://media.istockphoto.com/id/1188412964/photo/hamburger-with-cheese-and-french-fries.jpg?s=612x612&w=0&k=20&c=lmJ0qUjC3FtCrWOGU0hWvqBgXcKZ1imiXKOMuHRfFH8=",
-                          name: "Meal 1",
-                          price: "28"),
-                      Meals(
-                          image:
-                              "https://media.istockphoto.com/id/1188412964/photo/hamburger-with-cheese-and-french-fries.jpg?s=612x612&w=0&k=20&c=lmJ0qUjC3FtCrWOGU0hWvqBgXcKZ1imiXKOMuHRfFH8=",
-                          name: "Meal 1",
-                          price: "28"),
-                    ], controller: controller),
-                  ],
-                ),
-              ),
-            ),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    print(snapshot.data?.toJson());
+                    return Directionality(
+                      textDirection: Provider.of<AppPropertiesProvider>(context)
+                                  .language ==
+                              "en"
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(8),
+                        color: Colors.grey.shade200,
+                        child: ListView(
+                          controller: controller,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              child: CustomRestaurantListTile(
+                                  restaurant: widget.restaurant),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            buildSearchMealsTextField(context),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            buildMeals(
+                                categories: snapshot.data!.categories ?? [],
+                                controller: controller),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                            child: Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator())),
+                      ),
+                    ],
+                  );
+                }),
           )
         ],
       )),
@@ -148,14 +155,56 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   }
 
   Widget buildMeals(
-          {required List<Meals> meals, required ScrollController controller}) =>
+          {required List<Categories> categories,
+          required ScrollController controller}) =>
       ListView.builder(
         controller: controller,
         shrinkWrap: true,
-        itemCount: meals.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          final meal = meals[index];
-          return CustomMealListTile(meal: meal);
+          final category = categories[index];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: Container(
+                    height: 2,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(2)),
+                  )),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      category.name.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                  Expanded(
+                      child: Container(
+                    height: 2,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(2)),
+                  )),
+                ],
+              ),
+              ListView.builder(
+                controller: controller,
+                shrinkWrap: true,
+                itemCount: (category.meals ?? []).length,
+                itemBuilder: (context, index) {
+                  final meal = category.meals![index];
+                  return CustomMealListTile(meal: meal);
+                },
+              ),
+            ],
+          );
         },
       );
 
@@ -192,7 +241,7 @@ class CustomMealListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MealDetailsScreenRoute()),
+      onTap: () => Navigator.push(context, MealDetailsScreenRoute(meal: meal)),
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
@@ -206,12 +255,22 @@ class CustomMealListTile extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                meal.image,
-                height: 125,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.fitWidth,
-              ),
+              child: meal.image != ""
+                  ? Hero(
+                      tag: meal.id.toString(),
+                      child: Image.network(
+                        meal.image ?? "",
+                        height: 125,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image.asset(
+                      "assets/images/placeholder.jpg",
+                      height: 125,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    ),
             ),
             Container(
               padding: EdgeInsets.all(8),
@@ -219,7 +278,7 @@ class CustomMealListTile extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      meal.name,
+                      meal.name.toString(),
                       style: TextStyle(
                           color: Colors.grey.shade800,
                           fontWeight: FontWeight.bold,
@@ -227,7 +286,11 @@ class CustomMealListTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "SAR " + meal.price,
+                    Provider.of<AppPropertiesProvider>(context)
+                            .strings["sar"]
+                            .toString() +
+                        " " +
+                        meal.price.toString(),
                     style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
                   ),
                 ],

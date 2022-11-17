@@ -4,6 +4,7 @@ import 'package:food_delivery_app/providers/location_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/home_screen.dart';
 import 'package:food_delivery_app/ui/screens/login_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,10 +36,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Food Delivery',
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.amber,
-          textTheme: kTextTheme,
-        ),
+            primarySwatch: Colors.red,
+            accentColor: Colors.amber,
+            textTheme: kTextTheme,
+            fontFamily: GoogleFonts.cairo().fontFamily),
         home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),

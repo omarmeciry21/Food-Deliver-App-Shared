@@ -45,6 +45,7 @@ dependencies:
   flutter_google_places: ^0.3.0
   address_search_field:
   geocoder2: ^1.4.0
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

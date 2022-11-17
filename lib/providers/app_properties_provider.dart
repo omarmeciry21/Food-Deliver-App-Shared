@@ -32,10 +32,12 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deleteAddressTitle": "حذف العنوان",
     "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟",
     "searchMealText": "علامَّ تبحث؟",
+    "sar": "ر.س.",
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
     "filter": "Filter",
+    "sar": "SAR",
     "logout": "Log Out",
     "back": "Back",
     "home": "Home",

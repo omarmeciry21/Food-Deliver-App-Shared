@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:food_delivery_app/data/models/list_of_restaurants.dart';
+import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/network/base_api.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,6 +21,23 @@ class RestaurantAPI {
       }
     } catch (e) {
       throw ("Exception in RestaurantAPI->getListOfRestaurants: " +
+          e.toString());
+    }
+  }
+
+  static Future<RestaurantDetailsResponse> getRestaurantDetails(
+      {required int restaurantId, required String language}) async {
+    try {
+      http.Response response = await BaseAPI.get(
+          uri: 'restaurant/details/$restaurantId?languageType=$language');
+
+      if (response.statusCode <= 299 && response.statusCode >= 200) {
+        return RestaurantDetailsResponse.fromJson(jsonDecode(response.body));
+      } else {
+        throw ("${response.statusCode} - ${response.body}");
+      }
+    } catch (e) {
+      throw ("Exception in RestaurantAPI->getRestaurantDetails: " +
           e.toString());
     }
   }
