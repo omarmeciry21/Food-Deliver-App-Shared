@@ -155,53 +155,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         itemCount: meals.length,
         itemBuilder: (context, index) {
           final meal = meals[index];
-          return GestureDetector(
-            onTap: () => Navigator.push(context, MealDetailsScreenRoute()),
-            child: Container(
-              margin: EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      meal.image,
-                      height: 125,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            meal.name,
-                            style: TextStyle(
-                                color: Colors.grey.shade800,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                        ),
-                        Text(
-                          "SAR " + meal.price,
-                          style: TextStyle(
-                              color: Colors.grey.shade700, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
+          return CustomMealListTile(meal: meal);
         },
       );
 
@@ -225,4 +179,63 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           ),
         ),
       );
+}
+
+class CustomMealListTile extends StatelessWidget {
+  const CustomMealListTile({
+    Key? key,
+    required this.meal,
+  }) : super(key: key);
+
+  final Meals meal;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MealDetailsScreenRoute()),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                meal.image,
+                height: 125,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      meal.name,
+                      style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                  ),
+                  Text(
+                    "SAR " + meal.price,
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
