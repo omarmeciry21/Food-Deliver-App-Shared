@@ -186,8 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    width: 200,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                    ),
                     child: Form(
                       key: _formKey,
                       child: TextFormField(
@@ -200,6 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 16),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
