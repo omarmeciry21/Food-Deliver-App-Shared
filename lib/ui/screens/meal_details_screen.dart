@@ -20,9 +20,35 @@ class MealDetailsScreenRoute extends CupertinoPageRoute {
   }
 }
 
-class MealDetailsScreen extends StatelessWidget {
+class MealDetailsScreen extends StatefulWidget {
   const MealDetailsScreen({Key? key, required this.meal}) : super(key: key);
   final Meals meal;
+
+  @override
+  State<MealDetailsScreen> createState() => _MealDetailsScreenState();
+}
+
+class _MealDetailsScreenState extends State<MealDetailsScreen> {
+  Map<String, dynamic> selectedAddOns = {};
+  final ScrollController controller = ScrollController();
+  int quantity = 1;
+  @override
+  void initState() {
+    super.initState();
+    (widget.meal.addOns ?? []).forEach((addOn) {
+      if (!addOn.single!) {
+        selectedAddOns[addOn.id.toString()] = {};
+        (addOn.elements ?? []).forEach((element) {
+          selectedAddOns[addOn.id.toString()]![element.id.toString()] = false;
+        });
+      } else {
+        selectedAddOns[addOn.id.toString()] =
+            addOn.elements!.first.id.toString();
+      }
+    });
+    print("Selected AddOns: " + selectedAddOns.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     var kSmallHeight = SizedBox(
@@ -59,20 +85,22 @@ class MealDetailsScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: ListView(
+                    shrinkWrap: true,
+                    controller: controller,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: meal.image != ""
+                            child: widget.meal.image != ""
                                 ? Hero(
-                                    tag: meal.id.toString(),
+                                    tag: widget.meal.id.toString(),
                                     child: Image.network(
-                                      meal.image ?? "",
+                                      widget.meal.image ?? "",
                                       height: 175,
                                       width: MediaQuery.of(context).size.width *
                                           0.7,
@@ -91,7 +119,7 @@ class MealDetailsScreen extends StatelessWidget {
                       ),
                       kSmallHeight,
                       Text(
-                        meal.name.toString(),
+                        widget.meal.name.toString(),
                         style: TextStyle(
                             color: Colors.black87,
                             fontSize: 18,
@@ -99,7 +127,7 @@ class MealDetailsScreen extends StatelessWidget {
                       ),
                       kSmallHeight,
                       Text(
-                        meal.description.toString(),
+                        widget.meal.description.toString(),
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 14,
@@ -109,88 +137,218 @@ class MealDetailsScreen extends StatelessWidget {
                         maxLines: 5,
                       ),
                       kSmallHeight,
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: (meal.addOns ?? []).length,
-                        itemBuilder: (context, addOnsIndex) {
-                          AddOns addOns = (meal.addOns ?? [])[addOnsIndex];
-                          List<Elements> elements =
-                              (meal.addOns ?? [])[addOnsIndex].elements ?? [];
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      addOns.name.toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: Container(
-                                    height: 1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade300,
-                                        borderRadius: BorderRadius.circular(2)),
-                                  )),
-                                ],
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: elements.length,
-                                itemBuilder: (context, index) {
-                                  final element = elements[index];
-                                  return addOns!.single ?? false
-                                      ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              onChanged: (newVal) {},
-                                              groupValue: true,
-                                            ),
-                                            Text(
-                                              element.name.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 14),
-                                            ),
-                                          ],
-                                        )
-                                      : Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Checkbox(
-                                              value: true,
-                                              onChanged: (newVal) {},
-                                            ),
-                                            Text(
-                                              element.name.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 14),
-                                            ),
-                                          ],
-                                        );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                      buildAddOns(controller: controller),
                     ],
                   ),
+                ),
+              ),
+              Container(
+                padding:
+                    EdgeInsets.only(right: 16, bottom: 16, left: 16, top: 0),
+                child: Row(
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.black87,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            quantity.toString(),
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.remove,
+                                color: Colors.black87,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 35,
+                        margin: EdgeInsets.only(
+                            top: 8, bottom: 8, right: 8, left: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  Provider.of<AppPropertiesProvider>(context)
+                                      .strings["add"]
+                                      .toString(),
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 2,
+                              margin: EdgeInsets.all(8),
+                              color: Colors.black26,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Center(
+                                child: Text(
+                                  widget.meal.price.toString() +
+                                      " " +
+                                      Provider.of<AppPropertiesProvider>(
+                                              context)
+                                          .strings["sar"]
+                                          .toString(),
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  ListView buildAddOns({required ScrollController controller}) {
+    return ListView.builder(
+      shrinkWrap: true,
+      controller: controller,
+      itemCount: (widget.meal.addOns ?? []).length,
+      itemBuilder: (context, addOnsIndex) {
+        AddOns addOns = (widget.meal.addOns ?? [])[addOnsIndex];
+        List<Elements> elements =
+            (widget.meal.addOns ?? [])[addOnsIndex].elements ?? [];
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    addOns.name.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Container(
+                  height: 1,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2)),
+                )),
+              ],
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: elements.length,
+              controller: controller,
+              itemBuilder: (context, index) {
+                final element = elements[index];
+                if (addOns.single!) {
+                  print(selectedAddOns[addOns.id.toString()]);
+                }
+                return addOns!.single ?? false
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: element.id.toString(),
+                            onChanged: (newVal) {
+                              print("N" + element.id.toString());
+                              setState(() {
+                                selectedAddOns[addOns.id.toString()] =
+                                    element.id.toString();
+                              });
+                            },
+                            groupValue: selectedAddOns[addOns.id.toString()],
+                          ),
+                          Text(
+                            element.name.toString(),
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 14),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Checkbox(
+                            value: selectedAddOns[addOns.id.toString()]
+                                [element.id.toString()],
+                            onChanged: (newVal) {
+                              setState(() {
+                                selectedAddOns[addOns.id.toString()]
+                                    [element.id.toString()] = newVal;
+                              });
+                            },
+                          ),
+                          Text(
+                            element.name.toString(),
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 14),
+                          ),
+                        ],
+                      );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -6,6 +6,8 @@ import '../data/models/types.dart';
 
 class RestaurantsProvider extends ChangeNotifier {
   ListOfRestaurants? _listOfRestaurants;
+  String restaurantSearchKeyword = "";
+  String mealsSearchKeyword = "";
 
   ListOfRestaurants? get listOfRestaurants => _listOfRestaurants;
 
@@ -44,6 +46,16 @@ class RestaurantsProvider extends ChangeNotifier {
 
   removeType(Types t) {
     selectedTypes.removeWhere((element) => element.id == t.id);
+    notifyListeners();
+  }
+
+  updateRestaurantSearchKeyWord(String newVal) {
+    restaurantSearchKeyword = newVal;
+    notifyListeners();
+  }
+
+  updateMealSearchKeyWord(String newVal) {
+    mealsSearchKeyword = newVal;
     notifyListeners();
   }
 }

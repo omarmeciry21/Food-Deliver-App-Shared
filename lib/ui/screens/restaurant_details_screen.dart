@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
+import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/meal_details_screen.dart';
 import 'package:food_delivery_app/ui/widgets/custom_restaurant_list_tile.dart';
 import 'package:food_delivery_app/ui/widgets/global_app_bar.dart';
@@ -38,6 +39,7 @@ class RestaurantDetailsScreen extends StatefulWidget {
 
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   late final ScrollController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -124,13 +126,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                             SizedBox(
                               height: 8,
                             ),
-                            buildSearchMealsTextField(context),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            buildMeals(
+                            MealsBuilder(
                                 categories: snapshot.data!.categories ?? [],
-                                controller: controller),
+                                controller: controller)
                           ],
                         ),
                       ),
@@ -153,16 +151,55 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       )),
     );
   }
+}
+
+class MealsBuilder extends StatefulWidget {
+  MealsBuilder({Key? key, required this.categories, required this.controller})
+      : super(key: key);
+  List<Categories> categories;
+  final ScrollController controller;
+  @override
+  State<MealsBuilder> createState() => _MealsBuilderState();
+}
+
+class _MealsBuilderState extends State<MealsBuilder> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<RestaurantsProvider>(
+      builder: (_, provider, __) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildSearchMealsTextField(context, provider),
+          SizedBox(
+            height: 8,
+          ),
+          buildMeals(
+              categories: widget.categories,
+              controller: widget.controller,
+              provider: provider),
+        ],
+      ),
+    );
+  }
 
   Widget buildMeals(
           {required List<Categories> categories,
-          required ScrollController controller}) =>
+          required ScrollController controller,
+          required RestaurantsProvider provider}) =>
       ListView.builder(
         controller: controller,
         shrinkWrap: true,
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
+          final meals = provider.mealsSearchKeyword == ""
+              ? category.meals ?? []
+              : (category.meals ?? [])
+                  .where((element) => element.name
+                      .toString()
+                      .toLowerCase()
+                      .contains(provider.mealsSearchKeyword.toLowerCase()))
+                  .toList();
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -197,9 +234,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               ListView.builder(
                 controller: controller,
                 shrinkWrap: true,
-                itemCount: (category.meals ?? []).length,
+                itemCount: (meals).length,
                 itemBuilder: (context, index) {
-                  final meal = category.meals![index];
+                  final meal = meals![index];
                   return CustomMealListTile(meal: meal);
                 },
               ),
@@ -208,7 +245,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         },
       );
 
-  Widget buildSearchMealsTextField(BuildContext context) => Container(
+  Widget buildSearchMealsTextField(
+          BuildContext context, RestaurantsProvider provider) =>
+      Container(
         height: 50,
         padding: EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
@@ -217,6 +256,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ),
         child: Center(
           child: TextFormField(
+            onChanged: (val) {
+              setState(() {
+                provider.updateMealSearchKeyWord(val);
+              });
+            },
             decoration: InputDecoration(
               hintText: Provider.of<AppPropertiesProvider>(context)
                   .strings["searchMealText"]

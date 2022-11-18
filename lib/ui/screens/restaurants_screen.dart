@@ -116,41 +116,66 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                           refreshFunc: () {
                             setState(() {});
                           }),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: listOfRestaurants != null
-                                ? listOfRestaurants!.length
-                                : 0,
-                            // itemCount: 5,
-                            itemBuilder: (context, index) {
-                              Restaurants restaurant =
-                                  listOfRestaurants![index];
-                              return GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  RestaurantDetailsScreenRoute(
-                                      restaurant: restaurant),
-                                ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.transparent,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        color: Colors.grey.shade300,
-                                        height: 3,
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                      Consumer<RestaurantsProvider>(builder:
+                          (BuildContext context, RestaurantsProvider value,
+                              Widget? child) {
+                        final List<Restaurants> restaurants =
+                            value.restaurantSearchKeyword == ""
+                                ? listOfRestaurants ?? []
+                                : (listOfRestaurants ?? [])
+                                    .where((element) => element.name
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(value.restaurantSearchKeyword
+                                            .toLowerCase()))
+                                    .toList();
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: buildSearchRestaurantsTextField(
+                                  context, value),
+                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: restaurants != null
+                                    ? restaurants!.length
+                                    : 0,
+                                // itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  Restaurants restaurant = restaurants![index];
+                                  return GestureDetector(
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      RestaurantDetailsScreenRoute(
+                                          restaurant: restaurant),
+                                    ),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Colors.transparent,
+                                      child: Column(
+                                        children: [
+                                          CustomRestaurantListTile(
+                                            restaurant: restaurant,
+                                          ),
+                                          restaurants.length <= 1
+                                              ? Container()
+                                              : Container(
+                                                  color: Colors.grey.shade300,
+                                                  height: 3,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                ),
+                                        ],
                                       ),
-                                      CustomRestaurantListTile(
-                                        restaurant: restaurant,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
+                                    ),
+                                  );
+                                }),
+                          ],
+                        );
+                      }),
                     ],
                   );
                 }
@@ -164,6 +189,32 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
       ),
     );
   }
+
+  Widget buildSearchRestaurantsTextField(
+          BuildContext context, RestaurantsProvider provider) =>
+      Container(
+        height: 50,
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: Center(
+          child: TextFormField(
+            onChanged: (val) {
+              provider.updateRestaurantSearchKeyWord(val);
+            },
+            decoration: InputDecoration(
+              hintText: Provider.of<AppPropertiesProvider>(context)
+                  .strings["searchMealText"]
+                  .toString(),
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+            ),
+          ),
+        ),
+      );
 
   Directionality _buildDrawer(BuildContext context) {
     return Directionality(
