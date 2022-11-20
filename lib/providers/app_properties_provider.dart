@@ -10,8 +10,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "orders": "الطلبات",
     "others": "أخرى",
     "enterMobileNumberTitle": "أدخل رقم هاتفك",
-    "enterMobileNumberText":
-        "أدخل رقم هاتك للدخول إلى حسابك او تسجيل حساب جديد.",
+    "enterMobileNumberText": "ادخل رقم التواصل الخاص بك على تطبيق الواتس اب.",
     "continue": "إستمرار",
     "verifyNumberTitle": "أعد تدخيل الرقم",
     "verifyNumberText": "أدخل الكود الذي تم إرساله إلى رقم ",
@@ -34,6 +33,8 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟",
     "searchMealText": "علامَّ تبحث؟",
     "sar": "ر.س.",
+    "exitAppTitle": "الخروج من التطبيق",
+    "exitAppText": "هل أنت متأكد أنك تريد إغلاق التطبيق؟"
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -45,8 +46,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "orders": "Orders",
     "others": "Others",
     "enterMobileNumberTitle": "Enter your mobile number",
-    "enterMobileNumberText":
-        "Enter your mobile number to create or login you account.",
+    "enterMobileNumberText": "Enter your what's app phone number.",
     "continue": "Continue",
     "verifyNumberTitle": "Verify your number",
     "verifyNumberText": "Enter the 6-digits code sent to ",
@@ -68,6 +68,8 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deleteAddressTitle": "Delete Address",
     "deleteAddressContent": "Are you sure you want to delete this address?",
     "searchMealText": "What are you looking for?",
+    "exitAppTitle": "Exit App",
+    "exitAppText": "Are you sure you want to close the app?"
   };
   String _language = "en";
 
