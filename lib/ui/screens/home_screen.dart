@@ -2,34 +2,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/ui/screens/restaurants_screen.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreenRoute extends CupertinoPageRoute {
-  HomeScreenRoute() : super(builder: (BuildContext context) => HomeScreen());
-
+  HomeScreenRoute({required this.locationData})
+      : super(
+            builder: (BuildContext context) =>
+                HomeScreen(locationData: locationData));
+  final LocationData locationData;
   // OPTIONAL IF YOU WISH TO HAVE SOME EXTRA ANIMATION WHILE ROUTING
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return FadeTransition(opacity: animation, child: HomeScreen());
+    return FadeTransition(
+        opacity: animation, child: HomeScreen(locationData: locationData));
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
+  const HomeScreen({Key? key, required this.locationData}) : super(key: key);
+  final LocationData locationData;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  final screens = [RestaurantsScreen(), Container(), Container()];
+  late final screens;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    screens = [
+      RestaurantsScreen(locationData: widget.locationData),
+      Container(),
+      Container()
+    ];
     _currentIndex =
         Provider.of<AppPropertiesProvider>(context, listen: false).language ==
                 "en"

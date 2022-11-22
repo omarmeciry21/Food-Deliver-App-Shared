@@ -12,7 +12,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "enterMobileNumberTitle": "أدخل رقم هاتفك",
     "enterMobileNumberText": "ادخل رقم التواصل الخاص بك على تطبيق الواتس اب.",
     "continue": "إستمرار",
-    "verifyNumberTitle": "أعد تدخيل الرقم",
+    "verifyNumberTitle": "التحقق من رقمك",
     "verifyNumberText": "أدخل الكود الذي تم إرساله إلى رقم ",
     "open": "مفتوح",
     "close": "مغلق",
@@ -24,7 +24,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deliveryLocation": "مكان التوصيل",
     "addressName": "اسم العنوان",
     "requiredField": "برجاء إدخال هذه البيانات.",
-    "addressDetails": "برجاء إدخالا المزيد من التفاصيل حول العنوان",
+    "addressDetails": "مثال: رقم البناية, رقم الفيلا, رقم الشقة",
     "OK": "حسناً",
     "cancel": "إلغاء",
     "add": "إضافة",
@@ -34,7 +34,11 @@ class AppPropertiesProvider extends ChangeNotifier {
     "searchMealText": "علامَّ تبحث؟",
     "sar": "ر.س.",
     "exitAppTitle": "الخروج من التطبيق",
-    "exitAppText": "هل أنت متأكد أنك تريد إغلاق التطبيق؟"
+    "exitAppText": "هل أنت متأكد أنك تريد إغلاق التطبيق؟",
+    "confirmDeliveryAddress": "تأكيد العنوان",
+    "clickToTryAgain": "اضغط هنا لإعادة المحاولة",
+    "noInternet":
+        "لا يوجد إتصال بالإنترنت! برجاء التحقق من اتصال الهاتف بالإنترنت وإعادة المحاولة."
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -60,7 +64,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deliveryLocation": "Delivery Location",
     "addressName": "Address Label",
     "requiredField": "This field is required.",
-    "addressDetails": "Please, enter more details about delivery address.",
+    "addressDetails": "Ex: Building / Appartment / Villa number.",
     "OK": "OK",
     "add": "Add",
     "cancel": "cancel",
@@ -69,7 +73,11 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deleteAddressContent": "Are you sure you want to delete this address?",
     "searchMealText": "What are you looking for?",
     "exitAppTitle": "Exit App",
-    "exitAppText": "Are you sure you want to close the app?"
+    "exitAppText": "Are you sure you want to close the app?",
+    "confirmDeliveryAddress": "Confirm Delivery Address",
+    "clickToTryAgain": "Click here to try again...",
+    "noInternet":
+        "No internet connection! Please, check your internet connectivity and try again."
   };
   String _language = "en";
 

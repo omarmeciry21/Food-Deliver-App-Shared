@@ -19,6 +19,8 @@ class RestaurantAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in RestaurantAPI->getListOfRestaurants: " +
           e.toString());
@@ -36,6 +38,8 @@ class RestaurantAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in RestaurantAPI->getRestaurantDetails: " +
           e.toString());

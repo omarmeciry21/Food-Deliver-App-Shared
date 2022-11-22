@@ -9,18 +9,23 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="Working on meal_details_screen.dart as a UI only">
-      <change afterPath="$PROJECT_DIR$/assets/images/whatsapp-logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="Working on milestone 2 notes">
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/choose_delivery_address.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/auth_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/auth_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/base_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/base_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/location_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/location_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/restaurants_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/add_new_address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/temp_unused/add_new_address.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/addresses_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/temp_unused/addresses_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/confirm_new_address_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/temp_unused/confirm_new_address_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/custom_restaurant_list_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/custom_restaurant_list_tile.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,22 +57,23 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/TOSHIBA/Desktop/templates/food-delivery-flutter-v2.5.0&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/IdeaProjects/Food-Delivery-App/lib/ui/screens&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;flutter.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\lib\ui\screens" />
       <recent name="F:\FoodDelivery\food_delivery_app\lib\data\models" />
       <recent name="F:\FoodDelivery\food_delivery_app\android\app\src\main\res" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\lib\ui\temp_unused" />
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\assets\images" />
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\assets" />
       <recent name="F:\FoodDelivery\food_delivery_app\lib\data\models" />
       <recent name="F:\FoodDelivery\food_delivery_app\lib\data\network" />
-      <recent name="F:\FoodDelivery\food_delivery_app\assets\images" />
     </key>
   </component>
   <component name="RunManager">
@@ -169,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668760925979</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Working on milestone 2 notes">
+      <created>1668962083816</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1668962083816</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +209,8 @@
     <MESSAGE value="Finished on restaurant_details_screen.dart as a UI only" />
     <MESSAGE value="Working on meal_details_screen.dart" />
     <MESSAGE value="Finished on meal_details_screen.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished on meal_details_screen.dart" />
+    <MESSAGE value="Working on milestone 2 notes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on milestone 2 notes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -26,6 +26,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->login: " + e.toString());
     }
@@ -40,6 +42,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->verifyOTP: " + e.toString());
     }
@@ -74,6 +78,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->addAddress: " + e.toString());
     }
@@ -100,6 +106,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->addAddress: " + e.toString());
     }
@@ -114,6 +122,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->verifyOTP: " + e.toString());
     }
@@ -135,6 +145,8 @@ class AuthAPI {
       } else {
         throw ("${response.statusCode} - ${response.body}");
       }
+    } on NoInternetConnectionException catch (e) {
+      rethrow;
     } catch (e) {
       throw ("Exception in AUTHAPI->getUserDetails: " + e.toString());
     }

@@ -3,11 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/models/list_of_restaurants.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
-import 'package:food_delivery_app/data/network/location_api.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
-import 'package:food_delivery_app/ui/screens/addresses_screen.dart';
 import 'package:food_delivery_app/ui/screens/restaurant_details_screen.dart';
 import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:location/location.dart';
@@ -18,20 +16,24 @@ import '../widgets/custom_restaurant_list_tile.dart';
 import '../widgets/global_app_bar.dart';
 
 class RestaurantsScreenRoute extends CupertinoPageRoute {
-  RestaurantsScreenRoute()
-      : super(builder: (BuildContext context) => RestaurantsScreen());
-
+  RestaurantsScreenRoute({required this.locationData})
+      : super(
+            builder: (BuildContext context) =>
+                RestaurantsScreen(locationData: locationData));
+  LocationData locationData;
   // OPTIONAL IF YOU WISH TO HAVE SOME EXTRA ANIMATION WHILE ROUTING
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return FadeTransition(opacity: animation, child: RestaurantsScreen());
+    return FadeTransition(
+        opacity: animation,
+        child: RestaurantsScreen(locationData: locationData));
   }
 }
 
 class RestaurantsScreen extends StatefulWidget {
-  RestaurantsScreen({Key? key}) : super(key: key);
-
+  RestaurantsScreen({Key? key, required this.locationData}) : super(key: key);
+  LocationData locationData;
   @override
   State<RestaurantsScreen> createState() => _RestaurantsScreenState();
 }
@@ -41,9 +43,10 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
 
   Future<ListOfRestaurants> getUserDetailsAndRestaurants(
       BuildContext context) async {
-    LocationData locationData = await LocationAPI.getCurrentLocation()
-        .onError((Exception error, stackTrace) => throw (error));
+    // LocationData locationData = await LocationAPI.getCurrentLocation()
+    //     .onError((Exception error, stackTrace) => throw (error));
 
+    LocationData locationData = widget.locationData;
     Provider.of<RestaurantsProvider>(context, listen: false).listOfRestaurants =
         await RestaurantAPI.getListOfRestaurants(
             lat: locationData.latitude ?? 24.3,
@@ -228,21 +231,21 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
             : MediaQuery.of(context).size.width * 0.4,
         child: ListView(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddressesScreen()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.location_on,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(Provider.of<AppPropertiesProvider>(context)
-                    .strings["addresses"]
-                    .toString()),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => AddressesScreen()));
+            //   },
+            //   child: ListTile(
+            //     leading: Icon(
+            //       Icons.location_on,
+            //       color: Theme.of(context).primaryColor,
+            //     ),
+            //     title: Text(Provider.of<AppPropertiesProvider>(context)
+            //         .strings["addresses"]
+            //         .toString()),
+            //   ),
+            // ),
             GestureDetector(
               onTap: () async {
                 await (await SharedPreferences.getInstance()).remove("session");

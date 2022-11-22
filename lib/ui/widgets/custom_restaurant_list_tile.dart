@@ -49,7 +49,7 @@ class CustomRestaurantListTile extends StatelessWidget {
               child: Text(
                 restaurant.name.toString(),
                 style: TextStyle(
-                  color: Colors.grey.shade700,
+                  color: Colors.black87.withAlpha(200),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -66,16 +66,16 @@ class CustomRestaurantListTile extends StatelessWidget {
                     ? Container()
                     : Icon(
                         Icons.location_on_outlined,
-                        size: 18,
+                        size: 14,
                         color: Colors.grey,
                       ),
                 SizedBox(
-                  width: 10,
-                ),
+                    // width: 5,
+                    ),
                 Text(
                   restaurant.distance ?? "",
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       color: Colors.black45,
                       fontWeight: FontWeight.bold),
                 ),
@@ -116,7 +116,7 @@ class CustomRestaurantListTile extends StatelessWidget {
               restaurant.workingHours.toString(),
               style: TextStyle(
                   color: Colors.black38,
-                  fontSize: 14,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold),
             ),
           ],

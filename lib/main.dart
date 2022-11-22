@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/location_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
-import 'package:food_delivery_app/ui/screens/home_screen.dart';
+import 'package:food_delivery_app/ui/screens/choose_delivery_address.dart';
 import 'package:food_delivery_app/ui/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.red,
             accentColor: Colors.amber,
             textTheme: kTextTheme,
-            fontFamily: GoogleFonts.cairo().fontFamily),
+            fontFamily: GoogleFonts.readexPro().fontFamily),
         home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
@@ -93,7 +93,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   String session = prefs.getString("session") ?? "";
                   if (session != "") {
                     Navigator.pushReplacement(context, LoginScreenRoute());
-                    Navigator.push(context, HomeScreenRoute());
+
+                    Navigator.push(context, ChooseDeliveryAddressScreenRoute());
                   } else {
                     Navigator.pushReplacement(context, LoginScreenRoute());
                   }

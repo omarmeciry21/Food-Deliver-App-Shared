@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:food_delivery_app/data/models/auth/verify_otp.dart';
 import 'package:food_delivery_app/data/models/auth/verify_otp_response.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
-import 'package:food_delivery_app/ui/screens/home_screen.dart';
+import 'package:food_delivery_app/ui/screens/choose_delivery_address.dart';
 import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -309,7 +309,8 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                         .setString("session", response.user!.session ?? "");
                     Navigator.pop(context);
                     if (response.status ?? false) {
-                      Navigator.pushReplacement(context, HomeScreenRoute());
+                      Navigator.pushReplacement(
+                          context, ChooseDeliveryAddressScreenRoute());
                     } else {
                       print(response.toJson());
                       showErrorDialog(context,
