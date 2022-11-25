@@ -38,7 +38,9 @@ class AppPropertiesProvider extends ChangeNotifier {
     "confirmDeliveryAddress": "تأكيد العنوان",
     "clickToTryAgain": "اضغط هنا لإعادة المحاولة",
     "noInternet":
-        "لا يوجد إتصال بالإنترنت! برجاء التحقق من اتصال الهاتف بالإنترنت وإعادة المحاولة."
+        "لا يوجد إتصال بالإنترنت! برجاء التحقق من اتصال الهاتف بالإنترنت وإعادة المحاولة.",
+    "viewCart": "تفاصيل",
+    "mealAddedSuccessfully": "تم إضافة الوجبة بنجاح!",
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -77,7 +79,9 @@ class AppPropertiesProvider extends ChangeNotifier {
     "confirmDeliveryAddress": "Confirm Delivery Address",
     "clickToTryAgain": "Click here to try again...",
     "noInternet":
-        "No internet connection! Please, check your internet connectivity and try again."
+        "No internet connection! Please, check your internet connectivity and try again.",
+    "viewCart": "View Cart",
+    "mealAddedSuccessfully": "Meal added successfully!",
   };
   String _language = "en";
 

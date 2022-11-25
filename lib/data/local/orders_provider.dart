@@ -4,37 +4,37 @@ import 'package:sqflite/sqflite.dart';
 import '../models/order/new_order.dart';
 
 String tableName = "NewOrders";
-String restaurantIdColumnName = "restaurantIdColumnName";
-String paymentMethodColumnName = "paymentMethodColumnName";
-String latitudeColumnName = "latitudeColumnName";
-String longitudeColumnName = "longitudeColumnName";
-String addressInformationColumnName = "addressInformationColumnName";
-String deliveryPriceColumnName = "deliveryPriceColumnName";
-String mealsColumnName = "mealsColumnName";
+String restaurantIdColumnName = "restaurantId";
+String paymentMethodColumnName = "paymentMethod";
+String latitudeColumnName = "latitude";
+String longitudeColumnName = "longitude";
+String addressInformationColumnName = "addressInformation";
+String deliveryPriceColumnName = "deliveryPrice";
+String mealsColumnName = "meals";
 
-class NewOrdersProvider {
-  static final NewOrdersProvider instance = NewOrdersProvider._internal();
+class OrdersProvider {
+  static final OrdersProvider instance = OrdersProvider._internal();
 
-  factory NewOrdersProvider() {
+  factory OrdersProvider() {
     return instance;
   }
 
-  NewOrdersProvider._internal();
+  OrdersProvider._internal();
 
   late Database db;
 
-  Future open(String path) async {
-    db = await openDatabase(join(await getDatabasesPath(), 'new_orders.db'),
+  Future open() async {
+    db = await openDatabase(join(await getDatabasesPath(), 'new_orders2.db'),
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
 create table $tableName ( 
-  $restaurantIdColumnName integer not null, 
-  $paymentMethodColumnName integer not null, 
-  $latitudeColumnName text not null,
-  $longitudeColumnName text not null,
-  $addressInformationColumnName text not null,
-  $deliveryPriceColumnName integer not null,
-  $mealsColumnName text not null)
+  $restaurantIdColumnName integer ,
+  $paymentMethodColumnName integer ,
+  $latitudeColumnName text ,
+  $longitudeColumnName text ,
+  $addressInformationColumnName text ,
+  $deliveryPriceColumnName integer ,
+  $mealsColumnName text )
 ''');
     });
   }
@@ -47,6 +47,7 @@ create table $tableName (
   Future<NewOrder> getNewOrder(int restaurantId) async {
     List<Map<String, dynamic>> maps = await db.query(tableName,
         where: '$restaurantIdColumnName = ?', whereArgs: [restaurantId]);
+    // print('|||||||');
     if (maps.length > 0) {
       return NewOrder.fromLocalJson(maps.first);
     } else

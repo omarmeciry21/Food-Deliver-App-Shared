@@ -2,10 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery_app/data/local/orders_provider.dart';
 import 'package:food_delivery_app/data/models/list_of_restaurants.dart';
+import 'package:food_delivery_app/data/models/order/new_order.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
+import 'package:food_delivery_app/providers/new_order_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/restaurant_details_screen.dart';
 import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
@@ -185,12 +188,33 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                     Restaurants restaurant =
                                         restaurants![index];
                                     return GestureDetector(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        RestaurantDetailsScreenRoute(
-                                          restaurant: restaurant,
-                                        ),
-                                      ),
+                                      onTap: () async {
+                                        try {
+                                          Provider.of<NewOrderProvider>(context,
+                                                      listen: false)
+                                                  .newOrder =
+                                              await OrdersProvider.instance
+                                                  .getNewOrder(restaurant.id!);
+                                        } catch (e) {
+                                          Provider.of<NewOrderProvider>(context,
+                                                      listen: false)
+                                                  .newOrder =
+                                              NewOrder(
+                                                  restaurantId: restaurant.id,
+                                                  meals: []);
+                                          await OrdersProvider.instance.insert(
+                                              Provider.of<NewOrderProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .newOrder!);
+                                        }
+                                        Navigator.push(
+                                          context,
+                                          RestaurantDetailsScreenRoute(
+                                            restaurant: restaurant,
+                                          ),
+                                        );
+                                      },
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,

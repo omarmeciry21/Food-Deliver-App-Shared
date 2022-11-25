@@ -142,6 +142,13 @@
             </list>
           </value>
         </entry>
+        <entry key="fluttertoast">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.1.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="geocoder2">
           <value>
             <list>
@@ -582,6 +589,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-2.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.1.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/geocoder2-1.4.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/google_api_headers-1.5.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1/lib" />

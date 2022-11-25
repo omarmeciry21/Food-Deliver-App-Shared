@@ -39,7 +39,14 @@ class NewOrder {
     longitude = json['longitude'];
     addressInformation = json['addressInformation'];
     deliveryPrice = json['deliveryPrice'];
-    meals = jsonDecode(json['meals']);
+    print(json['meals']);
+    if (json['meals'] != null && json['meals'] != "null") {
+      meals = [];
+      (jsonDecode(json['meals']) ?? <Map>[])
+          .forEach((e) => meals?.add(Meals.fromJson(e)));
+    } else {
+      meals = [];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +71,7 @@ class NewOrder {
     data['longitude'] = this.longitude;
     data['addressInformation'] = this.addressInformation;
     data['deliveryPrice'] = this.deliveryPrice;
+    print('|||||||');
     data['meals'] = jsonEncode(this.meals);
 
     return data;
@@ -72,7 +80,7 @@ class NewOrder {
   double get totalPrice {
     double sum = 0;
     (meals ?? []).forEach((element) {
-      sum += element.price ?? 0;
+      sum += element.price! * (element.quantity ?? 0);
     });
     return sum;
   }
@@ -80,7 +88,7 @@ class NewOrder {
 
 class Meals {
   int? id;
-  int? price;
+  double? price;
   int? quantity;
   List<AddsOn>? addsOn;
 

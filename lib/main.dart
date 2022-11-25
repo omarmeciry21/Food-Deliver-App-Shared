@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/location_provider.dart';
+import 'package:food_delivery_app/providers/new_order_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/choose_delivery_address.dart';
 import 'package:food_delivery_app/ui/screens/login_screen.dart';
@@ -8,7 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/local/orders_provider.dart';
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await await OrdersProvider.instance.open();
   runApp(const MyApp());
 }
 
@@ -30,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppPropertiesProvider()),
+        ChangeNotifierProvider(create: (context) => NewOrderProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(create: (context) => RestaurantsProvider()),
       ],

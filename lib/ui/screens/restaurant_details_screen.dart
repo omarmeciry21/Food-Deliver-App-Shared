@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/local/orders_provider.dart';
-import 'package:food_delivery_app/data/models/order/new_order.dart' as no;
 import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
@@ -12,6 +10,7 @@ import 'package:food_delivery_app/ui/widgets/global_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_properties_provider.dart';
+import '../widgets/bottom_new_order_bar.dart';
 
 class RestaurantDetailsScreenRoute extends CupertinoPageRoute {
   RestaurantDetailsScreenRoute({required this.restaurant})
@@ -135,29 +134,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                     MealsBuilder(
                                         categories:
                                             snapshot.data!.categories ?? [],
-                                        controller: controller)
+                                        controller: controller,
+                                        restaurants: widget.restaurant)
                                   ],
                                 ),
                               ),
                             ),
-                            FutureBuilder<no.NewOrder>(
-                              future: NewOrdersProvider()
-                                  .getNewOrder(widget.restaurant!.id!),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData && snapshot.data != null) {
-                                  return Container(
-                                    height: 50,
-                                    color: Colors.green,
-                                    child: Text(snapshot.data!.totalPrice
-                                        .toStringAsFixed(2)),
-                                  );
-                                }
-                                return Container(
-                                  height: 50,
-                                  color: Colors.green,
-                                );
-                              },
-                            ),
+                            BottomNewOrderBar(),
                           ],
                         ),
                       ),
@@ -183,9 +166,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 }
 
 class MealsBuilder extends StatefulWidget {
-  MealsBuilder({Key? key, required this.categories, required this.controller})
+  MealsBuilder(
+      {Key? key,
+      required this.categories,
+      required this.controller,
+      required this.restaurants})
       : super(key: key);
   List<Categories> categories;
+  Restaurants restaurants;
   final ScrollController controller;
   @override
   State<MealsBuilder> createState() => _MealsBuilderState();
@@ -266,7 +254,8 @@ class _MealsBuilderState extends State<MealsBuilder> {
                 itemCount: (meals).length,
                 itemBuilder: (context, index) {
                   final meal = meals![index];
-                  return CustomMealListTile(meal: meal);
+                  return CustomMealListTile(
+                      meal: meal, restaurants: widget.restaurants);
                 },
               ),
             ],
@@ -307,14 +296,23 @@ class CustomMealListTile extends StatelessWidget {
   const CustomMealListTile({
     Key? key,
     required this.meal,
+    required this.restaurants,
   }) : super(key: key);
 
   final Meals meal;
+  final Restaurants restaurants;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MealDetailsScreenRoute(meal: meal)),
+      onTap: () async {
+        await Navigator.push(
+            context,
+            MealDetailsScreenRoute(
+              meal: meal,
+              restaurants: restaurants,
+            ));
+      },
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
