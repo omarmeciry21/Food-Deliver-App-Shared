@@ -210,15 +210,17 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
-                              child: Center(
-                                child: Text(
-                                  Provider.of<AppPropertiesProvider>(context)
-                                      .strings["add"]
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                              child: Container(
+                                child: Center(
+                                  child: Text(
+                                    Provider.of<AppPropertiesProvider>(context)
+                                        .strings["add"]
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -46,6 +46,8 @@ dependencies:
   address_search_field:
   geocoder2: ^1.4.0
   google_fonts: ^3.0.1
+  sqflite: ^2.2.0+3
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:

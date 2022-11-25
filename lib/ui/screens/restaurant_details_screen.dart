@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/local/orders_provider.dart';
+import 'package:food_delivery_app/data/models/order/new_order.dart' as no;
 import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
@@ -110,25 +112,52 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           : TextDirection.rtl,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(8),
                         color: Colors.grey.shade200,
-                        child: ListView(
-                          controller: controller,
+                        child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListView(
+                                  controller: controller,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                      ),
+                                      child: CustomRestaurantListTile(
+                                          restaurant: widget.restaurant),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    MealsBuilder(
+                                        categories:
+                                            snapshot.data!.categories ?? [],
+                                        controller: controller)
+                                  ],
+                                ),
                               ),
-                              child: CustomRestaurantListTile(
-                                  restaurant: widget.restaurant),
                             ),
-                            SizedBox(
-                              height: 8,
+                            FutureBuilder<no.NewOrder>(
+                              future: NewOrdersProvider()
+                                  .getNewOrder(widget.restaurant!.id!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return Container(
+                                    height: 50,
+                                    color: Colors.green,
+                                    child: Text(snapshot.data!.totalPrice
+                                        .toStringAsFixed(2)),
+                                  );
+                                }
+                                return Container(
+                                  height: 50,
+                                  color: Colors.green,
+                                );
+                              },
                             ),
-                            MealsBuilder(
-                                categories: snapshot.data!.categories ?? [],
-                                controller: controller)
                           ],
                         ),
                       ),

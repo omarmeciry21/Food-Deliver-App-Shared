@@ -31,7 +31,7 @@ class AppPropertiesProvider extends ChangeNotifier {
     "menu": "القائمة",
     "deleteAddressTitle": "حذف العنوان",
     "deleteAddressContent": "هل أنت متأكد من حذف هذا العنوان؟",
-    "searchMealText": "علامَّ تبحث؟",
+    "searchMealText": "ابحث",
     "sar": "ر.س.",
     "exitAppTitle": "الخروج من التطبيق",
     "exitAppText": "هل أنت متأكد أنك تريد إغلاق التطبيق؟",
