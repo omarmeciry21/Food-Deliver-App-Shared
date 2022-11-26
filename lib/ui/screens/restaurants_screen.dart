@@ -44,6 +44,7 @@ class RestaurantsScreen extends StatefulWidget {
 
 class _RestaurantsScreenState extends State<RestaurantsScreen> {
   int bannerheightFactor = 0;
+  final ScrollController scrollController = ScrollController();
 
   Future<ListOfRestaurants> getUserDetailsAndRestaurants(
       BuildContext context) async {
@@ -146,7 +147,8 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                         Provider.of<RestaurantsProvider>(context)
                                 .displayedRestaurants ??
                             [];
-                    return Column(
+                    return ListView(
+                      controller: scrollController,
                       children: [
                         CustomAppBar(
                             scaffoldKey: scaffoldKey,
@@ -179,6 +181,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                     context, value),
                               ),
                               ListView.builder(
+                                  controller: scrollController,
                                   shrinkWrap: true,
                                   itemCount: restaurants != null
                                       ? restaurants!.length

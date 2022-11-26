@@ -41,6 +41,9 @@ class AppPropertiesProvider extends ChangeNotifier {
         "لا يوجد إتصال بالإنترنت! برجاء التحقق من اتصال الهاتف بالإنترنت وإعادة المحاولة.",
     "viewCart": "تفاصيل",
     "mealAddedSuccessfully": "تم إضافة الوجبة بنجاح!",
+    "order": "طلب",
+    "confirmOrder": "تأكيد الطلب",
+    "total": "الإجمالي"
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -82,6 +85,9 @@ class AppPropertiesProvider extends ChangeNotifier {
         "No internet connection! Please, check your internet connectivity and try again.",
     "viewCart": "View Cart",
     "mealAddedSuccessfully": "Meal added successfully!",
+    "order": "Order",
+    "confirmOrder": "Confirm Order",
+    "total": "Total"
   };
   String _language = "en";
 

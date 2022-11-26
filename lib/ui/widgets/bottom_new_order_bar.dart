@@ -25,10 +25,9 @@ class BottomNewOrderBar extends StatelessWidget {
                 Navigator.push(
                     context,
                     NewOrderDetailsScreenRoute(
-                        restaurantId: Provider.of<NewOrderProvider>(context,
+                        newOrder: Provider.of<NewOrderProvider>(context,
                                 listen: false)
-                            .newOrder!
-                            .restaurantId!));
+                            .newOrder!));
               },
               child: Container(
                 height: 40,
