@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
+import 'package:food_delivery_app/ui/screens/orders_screen.dart';
 import 'package:food_delivery_app/ui/screens/restaurants_screen.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     screens = [
       RestaurantsScreen(locationData: widget.locationData),
-      Container(),
+      OrdersScreen(locationData: widget.locationData),
       Container()
     ];
     _currentIndex =
@@ -84,21 +86,55 @@ class _HomeScreenState extends State<HomeScreen> {
               .strings["others"]
               .toString()),
     ];
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (newIndex) {
-            setState(() {
-              _currentIndex = newIndex;
-            });
-          },
-          items: Provider.of<AppPropertiesProvider>(context).language == "en"
-              ? itemsList
-              : itemsList.reversed.toList()),
-      body: SafeArea(
-        child: (Provider.of<AppPropertiesProvider>(context).language == "en"
-            ? screens
-            : screens.reversed.toList())[_currentIndex],
+    return WillPopScope(
+      onWillPop: () async {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(Provider.of<AppPropertiesProvider>(context)
+                      .strings["exitAppTitle"]
+                      .toString()),
+                  content: Text(Provider.of<AppPropertiesProvider>(context)
+                      .strings["exitAppText"]
+                      .toString()),
+                  actions: [
+                    TextButton(
+                      child: Text(Provider.of<AppPropertiesProvider>(context)
+                          .strings["cancel"]
+                          .toString()),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    TextButton(
+                      child: Text(
+                        Provider.of<AppPropertiesProvider>(context)
+                            .strings["OK"]
+                            .toString(),
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      onPressed: () {
+                        SystemNavigator.pop();
+                      },
+                    ),
+                  ],
+                ));
+        return false;
+      },
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (newIndex) {
+              setState(() {
+                _currentIndex = newIndex;
+              });
+            },
+            items: Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? itemsList
+                : itemsList.reversed.toList()),
+        body: SafeArea(
+          child: (Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? screens
+              : screens.reversed.toList())[_currentIndex],
+        ),
       ),
     );
   }

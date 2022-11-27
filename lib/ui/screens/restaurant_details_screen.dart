@@ -140,7 +140,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                 ),
                               ),
                             ),
-                            BottomNewOrderBar(),
+                            BottomNewOrderBar(afterPopAction: () {
+                              setState(() {});
+                            }),
                           ],
                         ),
                       ),

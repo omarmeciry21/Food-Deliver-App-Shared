@@ -54,6 +54,16 @@ create table $tableName (
       throw ("No order for this restaurant");
   }
 
+  Future<List<NewOrder>> getNewOrdersList() async {
+    List<Map<String, dynamic>> maps = await db.query(tableName);
+    // print('|||||||');
+    if (maps.length > 0) {
+      return List.generate(
+          maps.length, (index) => NewOrder.fromLocalJson(maps[index]));
+    } else
+      return [];
+  }
+
   Future<int> delete(int restaurantId) async {
     return await db.delete(tableName,
         where: '$restaurantIdColumnName = ?', whereArgs: [restaurantId]);

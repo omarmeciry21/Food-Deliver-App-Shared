@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/data/local/orders_provider.dart';
 import 'package:food_delivery_app/data/models/order/new_order.dart' as no;
 import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/network/restaurants_api.dart';
+import '../../providers/new_order_provider.dart';
 
 class NewOrderDetailsScreenRoute extends CupertinoPageRoute {
   NewOrderDetailsScreenRoute({required this.newOrder})
@@ -150,23 +153,185 @@ class _NewOrderDetailsScreenState extends State<NewOrderDetailsScreen> {
                                   SizedBox(
                                     width: 16,
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        (widget.newOrder.meals![index].price! *
-                                                    widget
-                                                        .newOrder
-                                                        .meals![index]
-                                                        .quantity!)
-                                                .toStringAsFixed(2) +
-                                            " " +
-                                            Provider.of<AppPropertiesProvider>(
-                                                    context)
-                                                .strings['sar']
-                                                .toString(),
-                                        style: TextStyle(color: Colors.black87),
-                                      ),
-                                    ],
+                                  Container(
+                                    height: 100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              (widget.newOrder.meals![index]
+                                                              .price! *
+                                                          widget
+                                                              .newOrder
+                                                              .meals![index]
+                                                              .quantity!)
+                                                      .toStringAsFixed(2) +
+                                                  " " +
+                                                  Provider.of<AppPropertiesProvider>(
+                                                          context)
+                                                      .strings['sar']
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black87),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            if (widget.newOrder.meals!.length >
+                                                1)
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: Text(Provider.of<
+                                                              AppPropertiesProvider>(
+                                                          context)
+                                                      .strings[
+                                                          'deleteMealTitle']
+                                                      .toString()),
+                                                  content: Text(Provider.of<
+                                                              AppPropertiesProvider>(
+                                                          context)
+                                                      .strings['deleteMealText']
+                                                      .toString()),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text(
+                                                        Provider.of<AppPropertiesProvider>(
+                                                                context)
+                                                            .strings['cancel']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black87),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        widget.newOrder.meals!
+                                                            .removeAt(widget
+                                                                .newOrder.meals!
+                                                                .indexWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .id ==
+                                                                        meal.id));
+                                                        await OrdersProvider
+                                                            .instance
+                                                            .update(widget
+                                                                .newOrder);
+                                                        Navigator.pop(context);
+                                                        setState(() {});
+                                                      },
+                                                      child: Text(
+                                                        Provider.of<AppPropertiesProvider>(
+                                                                context)
+                                                            .strings['OK']
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            else
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: Text(Provider.of<
+                                                              AppPropertiesProvider>(
+                                                          context)
+                                                      .strings[
+                                                          'deleteOrderTitle']
+                                                      .toString()),
+                                                  content: Text(Provider.of<
+                                                              AppPropertiesProvider>(
+                                                          context)
+                                                      .strings[
+                                                          'deleteOrderText']
+                                                      .toString()),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text(
+                                                        Provider.of<AppPropertiesProvider>(
+                                                                context)
+                                                            .strings['cancel']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await OrdersProvider
+                                                            .instance
+                                                            .delete(widget
+                                                                .newOrder
+                                                                .restaurantId!);
+                                                        Provider.of<NewOrderProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .clearMeals();
+                                                        Navigator.pop(context);
+                                                        Fluttertoast.showToast(
+                                                            msg: Provider.of<
+                                                                        AppPropertiesProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .strings[
+                                                                    'orderDeletedSuccessfully']
+                                                                .toString(),
+                                                            toastLength:
+                                                                Toast
+                                                                    .LENGTH_SHORT,
+                                                            gravity:
+                                                                ToastGravity
+                                                                    .BOTTOM,
+                                                            timeInSecForIosWeb:
+                                                                1,
+                                                            backgroundColor:
+                                                                Colors.green
+                                                                    .withOpacity(
+                                                                        0.75),
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        Provider.of<AppPropertiesProvider>(
+                                                                context)
+                                                            .strings['OK']
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                          },
+                                          icon: Icon(
+                                            Icons.delete_outline_rounded,
+                                            color: Colors.red,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),

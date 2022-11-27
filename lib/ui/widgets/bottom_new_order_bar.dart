@@ -7,10 +7,8 @@ import '../../providers/new_order_provider.dart';
 import '../screens/new_order_details_screen.dart';
 
 class BottomNewOrderBar extends StatelessWidget {
-  const BottomNewOrderBar({
-    Key? key,
-  }) : super(key: key);
-
+  BottomNewOrderBar({Key? key, required this.afterPopAction}) : super(key: key);
+  Function afterPopAction;
   @override
   Widget build(BuildContext context) {
     return Provider.of<NewOrderProvider>(context).newOrder!.totalPrice <= 0
@@ -21,13 +19,14 @@ class BottomNewOrderBar extends StatelessWidget {
                     ? TextDirection.ltr
                     : TextDirection.rtl,
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                     context,
                     NewOrderDetailsScreenRoute(
                         newOrder: Provider.of<NewOrderProvider>(context,
                                 listen: false)
                             .newOrder!));
+                afterPopAction();
               },
               child: Container(
                 height: 40,

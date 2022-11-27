@@ -43,7 +43,16 @@ class AppPropertiesProvider extends ChangeNotifier {
     "mealAddedSuccessfully": "تم إضافة الوجبة بنجاح!",
     "order": "طلب",
     "confirmOrder": "تأكيد الطلب",
-    "total": "الإجمالي"
+    "total": "الإجمالي",
+    "makeFirstOrder": "لا يوجد طلبات سابقة! قم بطلبك الأول معنا.",
+    "addFirstMeal": "اختر وجبتك الأولى.",
+    "pastOrders": "الطلبات السابقة",
+    "currentOrders": "الطلبات الحالية",
+    "deleteMealText": "هل أنت متأكد أنك تريد حذف هذه الوجبة؟",
+    "deleteMealTite": "حذف الوجبة",
+    "deleteOrderText": "هل أنت متأكد أنك تريد حذف هذا الطلب؟",
+    "deleteOrderTite": "حذف الطلب",
+    "orderDeletedSuccessfully": "تم حذف الطلب بنجاح!",
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -87,7 +96,16 @@ class AppPropertiesProvider extends ChangeNotifier {
     "mealAddedSuccessfully": "Meal added successfully!",
     "order": "Order",
     "confirmOrder": "Confirm Order",
-    "total": "Total"
+    "total": "Total",
+    "makeFirstOrder": "No orders history yet! Make your first order.",
+    "addFirstMeal": "Choose your first meal.",
+    "pastOrders": "Past Orders",
+    "currentOrders": "Current Orders",
+    "deleteMealText": "Are you sure you want to delete this meal?",
+    "deleteMealTitle": "Delete Meal",
+    "deleteOrderText": "Are you sure you want to delete this order?",
+    "deleteOrderTitle": "Delete Order",
+    "orderDeletedSuccessfully": "Order deleted successfully!",
   };
   String _language = "en";
 

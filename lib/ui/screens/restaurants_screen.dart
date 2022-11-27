@@ -11,12 +11,12 @@ import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/providers/new_order_provider.dart';
 import 'package:food_delivery_app/providers/restaurants_provider.dart';
 import 'package:food_delivery_app/ui/screens/restaurant_details_screen.dart';
-import 'package:food_delivery_app/ui/widgets/language_custom_widget.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/custom_restaurant_list_tile.dart';
+import '../widgets/drawer.dart';
 import '../widgets/global_app_bar.dart';
 
 class RestaurantsScreenRoute extends CupertinoPageRoute {
@@ -70,191 +70,163 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
   // Create a key
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text(Provider.of<AppPropertiesProvider>(context)
-                      .strings["exitAppTitle"]
-                      .toString()),
-                  content: Text(Provider.of<AppPropertiesProvider>(context)
-                      .strings["exitAppText"]
-                      .toString()),
-                  actions: [
-                    TextButton(
-                      child: Text(Provider.of<AppPropertiesProvider>(context)
-                          .strings["cancel"]
-                          .toString()),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    TextButton(
-                      child: Text(
-                        Provider.of<AppPropertiesProvider>(context)
-                            .strings["OK"]
-                            .toString(),
-                        style: TextStyle(color: Colors.black87),
-                      ),
-                      onPressed: () {
-                        SystemNavigator.pop();
-                      },
-                    ),
-                  ],
-                ));
-        return false;
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        drawer: Row(
-          mainAxisAlignment:
-              Provider.of<AppPropertiesProvider>(context).language == "en"
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.end,
-          children: [
-            _buildDrawer(context),
-          ],
-        ),
-        endDrawer: Row(
-          mainAxisAlignment:
-              Provider.of<AppPropertiesProvider>(context).language == "en"
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.end,
-          children: [
-            _buildDrawer(context),
-          ],
-        ),
-        body: Directionality(
-          textDirection:
-              Provider.of<AppPropertiesProvider>(context).language == "en"
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-          child: SafeArea(
-            child: FutureBuilder<ListOfRestaurants>(
-                future: getUserDetailsAndRestaurants(context),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                    return Center(
-                      child: Text(
-                        snapshot.error.toString(),
-                        style: TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    List<Restaurants> listOfRestaurants =
-                        Provider.of<RestaurantsProvider>(context)
-                                .displayedRestaurants ??
-                            [];
-                    return ListView(
-                      controller: scrollController,
-                      children: [
-                        CustomAppBar(
-                            scaffoldKey: scaffoldKey,
-                            banners: (snapshot.data!.banners ?? [])
-                                .map((e) => e.image.toString())
-                                .toList(),
-                            refreshFunc: () {
-                              setState(() {});
-                            }),
-                        Consumer<RestaurantsProvider>(builder:
-                            (BuildContext context, RestaurantsProvider value,
-                                Widget? child) {
-                          final List<Restaurants> restaurants =
-                              value.restaurantSearchKeyword == ""
-                                  ? listOfRestaurants ?? []
-                                  : (listOfRestaurants ?? [])
-                                      .where((element) => element.name
-                                          .toString()
-                                          .toLowerCase()
-                                          .contains(value
-                                              .restaurantSearchKeyword
-                                              .toLowerCase()))
-                                      .toList();
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: buildSearchRestaurantsTextField(
-                                    context, value),
-                              ),
-                              ListView.builder(
-                                  controller: scrollController,
-                                  shrinkWrap: true,
-                                  itemCount: restaurants != null
-                                      ? restaurants!.length
-                                      : 0,
-                                  // itemCount: 5,
-                                  itemBuilder: (context, index) {
-                                    Restaurants restaurant =
-                                        restaurants![index];
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        try {
-                                          Provider.of<NewOrderProvider>(context,
-                                                      listen: false)
-                                                  .newOrder =
-                                              await OrdersProvider.instance
-                                                  .getNewOrder(restaurant.id!);
-                                        } catch (e) {
-                                          Provider.of<NewOrderProvider>(context,
-                                                      listen: false)
-                                                  .newOrder =
-                                              NewOrder(
-                                                  restaurantId: restaurant.id,
-                                                  meals: []);
-                                          await OrdersProvider.instance.insert(
-                                              Provider.of<NewOrderProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .newOrder!);
-                                        }
-                                        Navigator.push(
-                                          context,
-                                          RestaurantDetailsScreenRoute(
-                                            restaurant: restaurant,
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        color: Colors.transparent,
-                                        child: Column(
-                                          children: [
-                                            CustomRestaurantListTile(
-                                              restaurant: restaurant,
-                                            ),
-                                            restaurants.length <= 1
-                                                ? Container()
-                                                : Container(
-                                                    color: Colors.grey.shade300,
-                                                    height: 3,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ],
-                          );
-                        }),
-                      ],
-                    );
-                  }
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: Row(
+        mainAxisAlignment:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+        children: [
+          buildDrawer(context),
+        ],
+      ),
+      endDrawer: Row(
+        mainAxisAlignment:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+        children: [
+          buildDrawer(context),
+        ],
+      ),
+      body: Directionality(
+        textDirection:
+            Provider.of<AppPropertiesProvider>(context).language == "en"
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+        child: SafeArea(
+          child: FutureBuilder<ListOfRestaurants>(
+              future: getUserDetailsAndRestaurants(context),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
                   return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
+                    child: Text(
+                      snapshot.error.toString(),
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
                     ),
                   );
-                }),
-          ),
+                }
+                if (snapshot.hasData) {
+                  List<Restaurants> listOfRestaurants =
+                      Provider.of<RestaurantsProvider>(context)
+                              .displayedRestaurants ??
+                          [];
+                  return ListView(
+                    controller: scrollController,
+                    children: [
+                      CustomAppBar(
+                          scaffoldKey: scaffoldKey,
+                          banners: (snapshot.data!.banners ?? [])
+                              .map((e) => e.image.toString())
+                              .toList(),
+                          refreshFunc: () {
+                            setState(() {});
+                          }),
+                      Consumer<RestaurantsProvider>(builder:
+                          (BuildContext context, RestaurantsProvider value,
+                              Widget? child) {
+                        final List<Restaurants> restaurants =
+                            value.restaurantSearchKeyword == ""
+                                ? listOfRestaurants ?? []
+                                : (listOfRestaurants ?? [])
+                                    .where((element) => element.name
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(value.restaurantSearchKeyword
+                                            .toLowerCase()))
+                                    .toList();
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: buildSearchRestaurantsTextField(
+                                  context, value),
+                            ),
+                            ListView.builder(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                itemCount: restaurants != null
+                                    ? restaurants!.length
+                                    : 0,
+                                // itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  Restaurants restaurant = restaurants![index];
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      try {
+                                        Provider.of<NewOrderProvider>(context,
+                                                    listen: false)
+                                                .newOrder =
+                                            await OrdersProvider.instance
+                                                .getNewOrder(restaurant.id!);
+                                      } catch (e) {
+                                        Provider.of<NewOrderProvider>(context,
+                                                    listen: false)
+                                                .newOrder =
+                                            NewOrder(
+                                                restaurantId: restaurant.id,
+                                                latitude:
+                                                    (await SharedPreferences
+                                                            .getInstance())
+                                                        .getDouble('lat')!
+                                                        .toStringAsFixed(2),
+                                                longitude:
+                                                    (await SharedPreferences
+                                                            .getInstance())
+                                                        .getDouble('lng')!
+                                                        .toStringAsFixed(2),
+                                                meals: []);
+                                        await OrdersProvider.instance.insert(
+                                            Provider.of<NewOrderProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .newOrder!);
+                                      }
+                                      Navigator.push(
+                                        context,
+                                        RestaurantDetailsScreenRoute(
+                                          restaurant: restaurant,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Colors.transparent,
+                                      child: Column(
+                                        children: [
+                                          CustomRestaurantListTile(
+                                            restaurant: restaurant,
+                                          ),
+                                          restaurants.length <= 1
+                                              ? Container()
+                                              : Container(
+                                                  color: Colors.grey.shade300,
+                                                  height: 3,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ],
+                        );
+                      }),
+                    ],
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                );
+              }),
         ),
       ),
     );
@@ -285,58 +257,6 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           ),
         ),
       );
-
-  Directionality _buildDrawer(BuildContext context) {
-    return Directionality(
-      textDirection:
-          Provider.of<AppPropertiesProvider>(context).language == "en"
-              ? TextDirection.ltr
-              : TextDirection.rtl,
-      child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.4 < 200
-            ? 200
-            : MediaQuery.of(context).size.width * 0.4,
-        child: ListView(
-          children: [
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.push(context,
-            //         MaterialPageRoute(builder: (context) => AddressesScreen()));
-            //   },
-            //   child: ListTile(
-            //     leading: Icon(
-            //       Icons.location_on,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     title: Text(Provider.of<AppPropertiesProvider>(context)
-            //         .strings["addresses"]
-            //         .toString()),
-            //   ),
-            // ),
-            GestureDetector(
-              onTap: () async {
-                await (await SharedPreferences.getInstance()).remove("session");
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.exit_to_app_rounded,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  Provider.of<AppPropertiesProvider>(context)
-                      .strings["logout"]
-                      .toString(),
-                ),
-              ),
-            ),
-            LanguagesCustomWidget()
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class CustomAppBar extends StatefulWidget {

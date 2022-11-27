@@ -15,4 +15,9 @@ class NewOrderProvider extends ChangeNotifier {
     _newOrder!.meals!.add(meal);
     notifyListeners();
   }
+
+  clearMeals() {
+    _newOrder!.meals!.clear();
+    notifyListeners();
+  }
 }

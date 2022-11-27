@@ -320,7 +320,11 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                   ],
                 ),
               ),
-              BottomNewOrderBar()
+              BottomNewOrderBar(
+                afterPopAction: () {
+                  setState(() {});
+                },
+              )
             ],
           ),
         ),
