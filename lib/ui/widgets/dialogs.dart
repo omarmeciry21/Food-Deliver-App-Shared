@@ -25,7 +25,6 @@ Future<dynamic> showErrorDialog(BuildContext context,
             content: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(
                   height: 125,
-                  width: 50,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,6 +41,44 @@ Future<dynamic> showErrorDialog(BuildContext context,
                             color: Colors.red,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  )),
+            ]),
+          ));
+}
+
+Future<dynamic> showSuccessDialog(BuildContext context,
+    {required String successMessage}) {
+  return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              Container(
+                  height: 125,
+                  width: 50,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        Icons.check,
+                        color: Colors.green,
+                        size: 50,
+                      ),
+                      Text(
+                        successMessage,
+                        style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   )),

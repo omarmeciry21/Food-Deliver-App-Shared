@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
 import 'package:food_delivery_app/ui/screens/orders_screen.dart';
+import 'package:food_delivery_app/ui/screens/others_screen.dart';
 import 'package:food_delivery_app/ui/screens/restaurants_screen.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     screens = [
       RestaurantsScreen(locationData: widget.locationData),
       OrdersScreen(locationData: widget.locationData),
-      Container()
+      OthersScreen()
     ];
     _currentIndex =
         Provider.of<AppPropertiesProvider>(context, listen: false).language ==

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../data/network/restaurants_api.dart';
 import '../../providers/app_properties_provider.dart';
+import '../../providers/new_order_provider.dart';
 import '../widgets/drawer.dart';
 
 class OrdersScreenRoute extends CupertinoPageRoute {
@@ -42,23 +43,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: Row(
-        mainAxisAlignment:
-            Provider.of<AppPropertiesProvider>(context).language == "en"
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
-        children: [
-          buildDrawer(context),
-        ],
-      ),
-      body: Directionality(
-        textDirection:
-            Provider.of<AppPropertiesProvider>(context).language == "en"
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-        child: SafeArea(
+    return Directionality(
+      textDirection:
+          Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: Row(
+          children: [
+            buildDrawer(context),
+          ],
+        ),
+        body: SafeArea(
           child: Column(
             children: [
               Container(
@@ -124,8 +121,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                                 .language),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData)
-                                            return buildCurrentOrders(
-                                                context, orders, snapshot);
+                                            return buildCurrentOrders(context,
+                                                orders, snapshot.data!);
                                           return Center(
                                             child: Container(
                                               height: 50,
@@ -230,8 +227,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           child: Container(
                             height: 100,
                             width: 100,
-                            child: Image.network(
-                                orders[index].restaurant!.logo.toString()),
+                            child: FadeInImage(
+                              image: NetworkImage(
+                                  orders[index].restaurant!.logo.toString()),
+                              placeholder:
+                                  AssetImage('assets/images/placeholder.jpg'),
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -281,10 +285,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
-  Column buildCurrentOrders(
-      BuildContext context,
-      AsyncSnapshot<List<NewOrder>> orders,
-      AsyncSnapshot<ListOfRestaurants> snapshot) {
+  Column buildCurrentOrders(BuildContext context,
+      AsyncSnapshot<List<NewOrder>> orders, ListOfRestaurants snapshot) {
     return Column(
       children: [
         Row(
@@ -315,7 +317,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             )
           ],
         ),
-        orders.data!.length == 0
+        orders.data?.length == 0
             ? Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -339,7 +341,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     itemCount: (orders.data ?? []).length,
                     itemBuilder: (context, index) {
                       final order = orders.data![index];
-                      final restaurant = snapshot.data?.restaurants!
+                      final restaurant = snapshot.restaurants!
                           .where((element) => element.id == order.restaurantId)
                           .toList()
                           .first;
@@ -347,6 +349,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           ? Container()
                           : GestureDetector(
                               onTap: () async {
+                                Provider.of<NewOrderProvider>(context,
+                                            listen: false)
+                                        .newOrder =
+                                    await OrdersProvider.instance
+                                        .getNewOrder(order.restaurantId!);
                                 await Navigator.push(
                                     context,
                                     NewOrderDetailsScreenRoute(

@@ -6,7 +6,7 @@ class NewOrder {
   String? latitude;
   String? longitude;
   String? addressInformation;
-  int? deliveryPrice;
+  double? deliveryPrice;
   List<Meals>? meals;
 
   NewOrder(
@@ -57,6 +57,7 @@ class NewOrder {
     data['longitude'] = this.longitude;
     data['addressInformation'] = this.addressInformation;
     data['deliveryPrice'] = this.deliveryPrice;
+
     if (this.meals != null) {
       data['meals'] = this.meals!.map((v) => v.toJson()).toList();
     }
@@ -82,6 +83,7 @@ class NewOrder {
     (meals ?? []).forEach((element) {
       sum += element.price! * (element.quantity ?? 0);
     });
+    sum += deliveryPrice ?? 0;
     return sum;
   }
 }

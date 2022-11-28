@@ -9,19 +9,19 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="working on new_order_details_screen.dart">
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/widgets/drawer.dart" afterDir="false" />
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="working on orders_screen.dart">
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/screens/others_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/local/orders_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/local/orders_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/network/orders_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/orders_api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/providers/new_order_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/new_order_provider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/bottom_new_order_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/bottom_new_order_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,18 +46,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "MATLAB_INTERPRETER": "F:\\FoodDelivery\\food_delivery_app\\lib\\counter.m",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "C:/Users/DELL/IdeaProjects/Food-Delivery-App/lib/ui/screens",
-    "settings.editor.selected.configurable": "flutter.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;MATLAB_INTERPRETER&quot;: &quot;F:\\FoodDelivery\\food_delivery_app\\lib\\counter.m&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/IdeaProjects/Food-Delivery-App/lib/ui/screens&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;flutter.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\lib\ui\screens" />
@@ -65,11 +65,11 @@
       <recent name="F:\FoodDelivery\food_delivery_app\android\app\src\main\res" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\lib\ui\screens" />
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\lib\ui\temp_unused" />
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\assets\images" />
       <recent name="C:\Users\DELL\IdeaProjects\Food-Delivery-App\assets" />
       <recent name="F:\FoodDelivery\food_delivery_app\lib\data\models" />
-      <recent name="F:\FoodDelivery\food_delivery_app\lib\data\network" />
     </key>
   </component>
   <component name="RunManager">
@@ -192,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669503385075</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="working on orders_screen.dart">
+      <created>1669534180631</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669534180631</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -222,7 +229,8 @@
     <MESSAGE value="Working on milestone 2 notes" />
     <MESSAGE value="Working on new_order_details.dart" />
     <MESSAGE value="working on new_order_details_screen.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on new_order_details_screen.dart" />
+    <MESSAGE value="working on orders_screen.dart" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on orders_screen.dart" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

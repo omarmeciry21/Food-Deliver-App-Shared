@@ -18,14 +18,16 @@ class OrdersAPI {
         await (await SharedPreferences.getInstance()).getString("session") ??
             "";
     try {
+      await checkInternetConnection();
       if (session == "")
         throw (Provider.of<AppPropertiesProvider>(context)
             .strings["noSessionFound"]
             .toString());
+      print(session);
       http.Response response = await BaseAPI.post(
           uri:
               'order/new?s=$session&languageType=${Provider.of<AppPropertiesProvider>(context, listen: false).language}',
-          body: newOrder.toJson());
+          body: jsonEncode(newOrder.toJson()));
       if (response.statusCode <= 299 && response.statusCode >= 200) {
         return NewOrderResponse.fromJson(jsonDecode(response.body));
       } else {
@@ -34,6 +36,8 @@ class OrdersAPI {
     } on NoInternetConnectionException catch (e) {
       rethrow;
     } catch (e) {
+      print('isINM');
+      print(jsonEncode(newOrder.toJson()));
       throw ("Exception in OrdersAPI->sendNewOrder: " + e.toString());
     }
   }

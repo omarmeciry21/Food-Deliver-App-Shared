@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../data/network/restaurants_api.dart';
 import '../../providers/new_order_provider.dart';
+import 'confirm_order_screen.dart';
 
 class NewOrderDetailsScreenRoute extends CupertinoPageRoute {
   NewOrderDetailsScreenRoute({required this.newOrder})
@@ -104,8 +105,15 @@ class _NewOrderDetailsScreenState extends State<NewOrderDetailsScreen> {
                                     child: Container(
                                       height: 100,
                                       width: 100,
-                                      child:
-                                          Image.network(meal.image.toString()),
+                                      child: FadeInImage(
+                                        image:
+                                            NetworkImage(meal.image.toString()),
+                                        placeholder: AssetImage(
+                                            'assets/images/placeholder.jpg'),
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -377,7 +385,14 @@ class _NewOrderDetailsScreenState extends State<NewOrderDetailsScreen> {
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  ConfirmOrderScreenRoute(
+                                      newOrder: widget.newOrder,
+                                      categories:
+                                          snapshot.data!.categories ?? []));
+                            },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                   Theme.of(context).accentColor),

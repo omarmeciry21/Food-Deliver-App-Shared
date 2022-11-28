@@ -231,6 +231,26 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                                 no.Meals meal =
                                     no.Meals.fromJson(widget.meal.toJson());
                                 meal.quantity = quantity;
+                                meal.addsOn = [];
+                                print(widget.meal.addOns!
+                                    .map((e) => e.toJson())
+                                    .toList()
+                                    .toString());
+                                selectedAddOns.forEach((key, value) {
+                                  if (value is Map) {
+                                    List<int> v = [];
+                                    value.forEach((k1, v1) {
+                                      if (v1) {
+                                        v.add(int.parse(k1));
+                                      }
+                                    });
+                                    meal.addsOn!.add(no.AddsOn(
+                                        id: int.parse(key), elements: v));
+                                  } else {
+                                    meal.addsOn!.add(no.AddsOn(
+                                        id: int.parse(key), elements: [value]));
+                                  }
+                                });
                                 try {
                                   Provider.of<NewOrderProvider>(context,
                                           listen: false)

@@ -70,32 +70,19 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
   // Create a key
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: Row(
-        mainAxisAlignment:
-            Provider.of<AppPropertiesProvider>(context).language == "en"
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
-        children: [
-          buildDrawer(context),
-        ],
-      ),
-      endDrawer: Row(
-        mainAxisAlignment:
-            Provider.of<AppPropertiesProvider>(context).language == "en"
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
-        children: [
-          buildDrawer(context),
-        ],
-      ),
-      body: Directionality(
-        textDirection:
-            Provider.of<AppPropertiesProvider>(context).language == "en"
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-        child: SafeArea(
+    return Directionality(
+      textDirection:
+          Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: Row(
+          children: [
+            buildDrawer(context),
+          ],
+        ),
+        body: SafeArea(
           child: FutureBuilder<ListOfRestaurants>(
               future: getUserDetailsAndRestaurants(context),
               builder: (context, snapshot) {
@@ -165,21 +152,19 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                                 .getNewOrder(restaurant.id!);
                                       } catch (e) {
                                         Provider.of<NewOrderProvider>(context,
-                                                    listen: false)
-                                                .newOrder =
-                                            NewOrder(
-                                                restaurantId: restaurant.id,
-                                                latitude:
-                                                    (await SharedPreferences
-                                                            .getInstance())
-                                                        .getDouble('lat')!
-                                                        .toStringAsFixed(2),
-                                                longitude:
-                                                    (await SharedPreferences
-                                                            .getInstance())
-                                                        .getDouble('lng')!
-                                                        .toStringAsFixed(2),
-                                                meals: []);
+                                                listen: false)
+                                            .newOrder = NewOrder(
+                                          restaurantId: restaurant.id,
+                                          latitude: (await SharedPreferences
+                                                  .getInstance())
+                                              .getDouble('lat')!
+                                              .toStringAsFixed(2),
+                                          longitude: (await SharedPreferences
+                                                  .getInstance())
+                                              .getDouble('lng')!
+                                              .toStringAsFixed(2),
+                                          meals: [],
+                                        );
                                         await OrdersProvider.instance.insert(
                                             Provider.of<NewOrderProvider>(
                                                     context,
@@ -288,11 +273,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            Provider.of<AppPropertiesProvider>(context, listen: false)
-                        .language ==
-                    "en"
-                ? widget.scaffoldKey.currentState!.openDrawer()
-                : widget.scaffoldKey.currentState!.openEndDrawer();
+            widget.scaffoldKey.currentState!.openDrawer();
           },
           icon: const Icon(
             Icons.menu_rounded,
@@ -428,94 +409,106 @@ class _CustomAppBarState extends State<CustomAppBar> {
               width: fullWidth,
             ))
         .toList();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        GlobalAppBar(
-          rightActions: rightActions,
-          leftActions: leftActions,
-          title: Provider.of<AppPropertiesProvider>(context).appName,
-        ),
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          height: 150.0 * (isBannerOpen ? 1 : 0),
-          color: Theme.of(context).primaryColor,
-          width: fullWidth,
-          child: Stack(
-            children: [
-              Container(
-                height: 150,
-                width: fullWidth,
-                child: CarouselSlider(
-                  items: imageSliders,
-                  carouselController: _controller,
-                  options: CarouselOptions(
-                      height: fullWidth / 2,
-                      viewportFraction: 1.0,
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _current = index;
-                        });
-                      }),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: widget.banners.asMap().entries.map((entry) {
-                      return GestureDetector(
-                        onTap: () => _controller.animateToPage(entry.key),
-                        child: Container(
-                          width: 12.0,
-                          height: 12.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 4.0),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: (Colors.white).withOpacity(
-                                  _current == entry.key ? 1 : 0.6)),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ],
+    return Directionality(
+      textDirection:
+          Provider.of<AppPropertiesProvider>(context).language == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          GlobalAppBar(
+            rightActions:
+                Provider.of<AppPropertiesProvider>(context).language == "en"
+                    ? rightActions
+                    : leftActions,
+            leftActions:
+                Provider.of<AppPropertiesProvider>(context).language == "en"
+                    ? leftActions
+                    : rightActions,
+            title: Provider.of<AppPropertiesProvider>(context).appName,
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isBannerOpen = !isBannerOpen;
-            });
-          },
-          child: Container(
-            height: 30,
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            height: 150.0 * (isBannerOpen ? 1 : 0),
             color: Theme.of(context).primaryColor,
-            child: Center(
-                child: RotatedBox(
-              quarterTurns: isBannerOpen ? 2 : 0,
-              child: Image.asset(
-                "assets/images/down-arrow.png",
-                color: Colors.white,
-                width: 15,
-                height: 15,
-                fit: BoxFit.cover,
-              ),
-            )),
+            width: fullWidth,
+            child: Stack(
+              children: [
+                Container(
+                  height: 150,
+                  width: fullWidth,
+                  child: CarouselSlider(
+                    items: imageSliders,
+                    carouselController: _controller,
+                    options: CarouselOptions(
+                        height: fullWidth / 2,
+                        viewportFraction: 1.0,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: widget.banners.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: 12.0,
+                            height: 12.0,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 4.0),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (Colors.white).withOpacity(
+                                    _current == entry.key ? 1 : 0.6)),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                isBannerOpen = !isBannerOpen;
+              });
+            },
+            child: Container(
+              height: 30,
+              color: Theme.of(context).primaryColor,
+              child: Center(
+                  child: RotatedBox(
+                quarterTurns: isBannerOpen ? 2 : 0,
+                child: Image.asset(
+                  "assets/images/down-arrow.png",
+                  color: Colors.white,
+                  width: 15,
+                  height: 15,
+                  fit: BoxFit.cover,
+                ),
+              )),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
