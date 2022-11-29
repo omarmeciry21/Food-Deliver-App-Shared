@@ -5,6 +5,7 @@ import 'package:food_delivery_app/data/local/orders_provider.dart';
 import 'package:food_delivery_app/data/models/order/new_order.dart' hide Meals;
 import 'package:food_delivery_app/data/network/orders_api.dart';
 import 'package:food_delivery_app/providers/app_properties_provider.dart';
+import 'package:food_delivery_app/providers/new_order_provider.dart';
 import 'package:food_delivery_app/ui/widgets/dialogs.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -131,7 +132,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     widget.newOrder.paymentMethod = selectedPaymentMethod +
                         1; //Adding1 because backend count 1 for cash payment and 2 for card payment
                     widget.newOrder.deliveryPrice = 0;
-                    widget.newOrder.longitude =
+                    widget.newOrder.latitude =
                         (await prefs.getDouble('lat')).toString();
                     widget.newOrder.longitude =
                         (await prefs.getDouble('lng')).toString();
@@ -157,8 +158,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             backgroundColor: Colors.green.withOpacity(0.75),
                             textColor: Colors.white,
                             fontSize: 16.0);
-                        await OrdersProvider.instance
-                            .delete(widget.newOrder.restaurantId!);
+                        Provider.of<NewOrderProvider>(context, listen: false)
+                            .clearMeals();
+                        await OrdersProvider.instance.update(
+                            Provider.of<NewOrderProvider>(context,
+                                    listen: false)
+                                .newOrder!);
                         Navigator.pop(context);
                       }
                     } catch (e) {
@@ -227,11 +232,15 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             var addOnsNames = (widget.newOrder.meals![index].addsOn!
                 .map((addOn) => addOn.elements!
                     .map((e) => meal.addOns!
-                        .map((element) => element.elements!
-                            .where((element) => element.id == e)
-                            .first
-                            .name)
-                        .first)
+                        .where((element) {
+                          return element.id == addOn.id;
+                        })
+                        .first
+                        .elements!
+                        .where((element) => element.id == e)
+                        .first
+                        .name)
+                    .toList()
                     .toList())
                 .toList());
             var addOnsNamesAsAString = "";

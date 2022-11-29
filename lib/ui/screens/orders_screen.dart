@@ -43,6 +43,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<NewOrderProvider>(context).newOrder;
     return Directionality(
       textDirection:
           Provider.of<AppPropertiesProvider>(context).language == "en"
@@ -84,82 +85,92 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                  child: Container(
-                child: FutureBuilder<OrdersListResponse>(
-                    future: OrdersAPI().getOrdersList(context),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            snapshot.error.toString(),
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        );
-                      }
-                      if (snapshot.hasData) {
-                        List<Orders> orders = snapshot.data!.orders ?? [];
-                        return ListView(
-                          controller: scrollController,
-                          children: [
-                            FutureBuilder<List<NewOrder>>(
-                                future:
-                                    OrdersProvider.instance.getNewOrdersList(),
-                                builder: (context, orders) {
-                                  if (snapshot.hasData)
-                                    return FutureBuilder(
-                                        future: RestaurantAPI.getListOfRestaurants(
-                                            lat: widget.locationData.latitude ??
-                                                24.3,
-                                            lon:
-                                                widget.locationData.longitude ??
-                                                    46.7,
-                                            language: Provider.of<
-                                                        AppPropertiesProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .language),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData)
-                                            return buildCurrentOrders(context,
-                                                orders, snapshot.data!);
-                                          return Center(
-                                            child: Container(
-                                              height: 50,
-                                              width: 50,
-                                              margin: EdgeInsets.all(16),
-                                              child: CircularProgressIndicator(
-                                                color: Colors.amber,
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  return Center(
-                                    child: Container(
-                                      height: 50,
-                                      width: 50,
-                                      margin: EdgeInsets.all(16),
-                                      child: CircularProgressIndicator(
-                                        color: Colors.amber,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                            buildPastOrders(context, orders),
-                          ],
-                        );
-                      }
+              FutureBuilder<OrdersListResponse>(
+                  future: OrdersAPI().getOrdersList(context),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
                       return Center(
+                        child: Text(
+                          snapshot.error.toString(),
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      List<Orders> pastOrders = snapshot.data!.orders ?? [];
+                      print(snapshot.data!.toJson().toString().toString());
+                      return Expanded(
                         child: Container(
-                          height: 50,
-                          width: 50,
-                          child: CircularProgressIndicator(
-                            color: Colors.amber,
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FutureBuilder<List<NewOrder>>(
+                                    future: OrdersProvider.instance
+                                        .getNewOrdersList(),
+                                    builder: (context, orders) {
+                                      if (snapshot.hasData)
+                                        return FutureBuilder(
+                                            future: RestaurantAPI
+                                                .getListOfRestaurants(
+                                                    lat: widget.locationData
+                                                            .latitude ??
+                                                        24.3,
+                                                    lon: widget.locationData
+                                                            .longitude ??
+                                                        46.7,
+                                                    language: Provider.of<
+                                                                AppPropertiesProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .language),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData)
+                                                return buildCurrentOrders(
+                                                    context,
+                                                    orders,
+                                                    snapshot.data!);
+                                              return Center(
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  margin: EdgeInsets.all(16),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.amber,
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      return Center(
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          margin: EdgeInsets.all(16),
+                                          child: CircularProgressIndicator(
+                                            color: Colors.amber,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                buildPastOrders(context, pastOrders),
+                              ],
+                            ),
                           ),
                         ),
                       );
-                    }),
-              )),
+                    }
+                    return Center(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(
+                          color: Colors.amber,
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),
@@ -215,6 +226,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 ),
               )
             : ListView.builder(
+                shrinkWrap: true,
                 controller: scrollController,
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
@@ -250,15 +262,40 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  orders[index].restaurant!.name.toString(),
+                                  Provider.of<AppPropertiesProvider>(context)
+                                          .strings['order']
+                                          .toString() +
+                                      orders[index].orderNumber.toString() +
+                                      ' : ' +
+                                      orders[index].restaurant!.name.toString(),
                                   style: TextStyle(
                                       color: Colors.black87,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
+                                  maxLines: 2,
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  orders[index].totalPrice!.toStringAsFixed(2) +
+                                  orders[index].statusDescription.toString(),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  Provider.of<AppPropertiesProvider>(context)
+                                          .strings['total']
+                                          .toString() +
+                                      ': ' +
+                                      orders[index]
+                                          .totalPrice!
+                                          .toStringAsFixed(2) +
                                       ' ' +
                                       Provider.of<AppPropertiesProvider>(
                                               context)
@@ -317,7 +354,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
             )
           ],
         ),
-        orders.data?.length == 0
+        orders.data!
+                    .where((element) => element.totalPrice > 0)
+                    .toList()
+                    ?.length ==
+                0
             ? Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

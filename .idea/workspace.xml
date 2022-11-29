@@ -10,18 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="working on orders_screen.dart">
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ui/screens/others_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/models/order/orders_list_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/order/orders_list_response.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/data/network/orders_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/orders_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669534180631</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="working on orders_screen.dart">
+      <created>1669662899932</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1669662899932</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

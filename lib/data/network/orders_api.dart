@@ -27,6 +27,7 @@ class OrdersAPI {
       http.Response response = await BaseAPI.post(
           uri:
               'order/new?s=$session&languageType=${Provider.of<AppPropertiesProvider>(context, listen: false).language}',
+          headers: {"Content-Type": "application/json"},
           body: jsonEncode(newOrder.toJson()));
       if (response.statusCode <= 299 && response.statusCode >= 200) {
         return NewOrderResponse.fromJson(jsonDecode(response.body));
@@ -56,6 +57,7 @@ class OrdersAPI {
           uri:
               'order/list?s=$session&languageType=${Provider.of<AppPropertiesProvider>(context, listen: false).language}');
       if (response.statusCode <= 299 && response.statusCode >= 200) {
+        print(jsonDecode(response.body).toString());
         return OrdersListResponse.fromJson(jsonDecode(response.body));
       } else {
         throw ("${response.statusCode} - ${response.body}");
@@ -63,6 +65,7 @@ class OrdersAPI {
     } on NoInternetConnectionException catch (e) {
       rethrow;
     } catch (e) {
+      rethrow;
       throw ("Exception in OrdersAPI->getOrdersList: " + e.toString());
     }
   }

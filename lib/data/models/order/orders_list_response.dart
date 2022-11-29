@@ -44,12 +44,14 @@ class Orders {
       this.statusDescription});
 
   Orders.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.parse(double.parse(json['id'].toString()).round().toString());
     orderNumber = json['order_number'];
     restaurant = json['restaurant'] != null
         ? new Restaurant.fromJson(json['restaurant'])
         : null;
-    totalPrice = json['total_price'];
+    totalPrice = json['total_price'].toInt();
+    // totalPrice = int.parse(
+    //     double.parse(json['total_price'].toString()).round().toString());
     status = json['status'];
     statusDescription = json['status_description'];
   }
@@ -76,7 +78,7 @@ class Restaurant {
   Restaurant({this.id, this.name, this.logo});
 
   Restaurant.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.parse(double.parse(json['id'].toString()).round().toString());
     name = json['name'];
     logo = json['logo'];
   }

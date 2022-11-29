@@ -158,11 +158,11 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                           latitude: (await SharedPreferences
                                                   .getInstance())
                                               .getDouble('lat')!
-                                              .toStringAsFixed(2),
+                                              .toString(),
                                           longitude: (await SharedPreferences
                                                   .getInstance())
                                               .getDouble('lng')!
-                                              .toStringAsFixed(2),
+                                              .toString(),
                                           meals: [],
                                         );
                                         await OrdersProvider.instance.insert(

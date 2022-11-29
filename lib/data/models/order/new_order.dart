@@ -6,7 +6,7 @@ class NewOrder {
   String? latitude;
   String? longitude;
   String? addressInformation;
-  double? deliveryPrice;
+  int? deliveryPrice;
   List<Meals>? meals;
 
   NewOrder(
@@ -51,12 +51,12 @@ class NewOrder {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['restaurantId'] = this.restaurantId;
-    data['paymentMethod'] = this.paymentMethod;
+    data['restaurantId'] = this.restaurantId.toString();
+    data['paymentMethod'] = this.paymentMethod.toString();
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['addressInformation'] = this.addressInformation;
-    data['deliveryPrice'] = this.deliveryPrice;
+    data['deliveryPrice'] = (this.deliveryPrice).toString();
 
     if (this.meals != null) {
       data['meals'] = this.meals!.map((v) => v.toJson()).toList();

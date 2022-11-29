@@ -248,7 +248,10 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                                         id: int.parse(key), elements: v));
                                   } else {
                                     meal.addsOn!.add(no.AddsOn(
-                                        id: int.parse(key), elements: [value]));
+                                        id: int.parse(key),
+                                        elements: [
+                                          int.parse(value.toString())
+                                        ]));
                                   }
                                 });
                                 try {
