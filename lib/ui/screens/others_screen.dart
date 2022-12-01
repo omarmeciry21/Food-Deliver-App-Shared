@@ -27,7 +27,6 @@ class OthersScreen extends StatelessWidget {
             children: [
               Container(
                 height: 40,
-                width: MediaQuery.of(context).size.width,
                 child: AppBar(
                   toolbarHeight: 40,
                   centerTitle: true,

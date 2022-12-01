@@ -74,7 +74,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             children: [
               Container(
                 height: 40,
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 child: AppBar(
                   toolbarHeight: 40,
                   centerTitle: true,
@@ -113,7 +113,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       buildEstimatedTimeSection(context),
                       Container(
                         height: 1,
-                        width: MediaQuery.of(context).size.width,
+                        width: double.infinity,
                         color: Colors.black26,
                       ),
                       buildDeliveryAddressSection(context),
@@ -122,9 +122,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 ),
               ),
               Container(
-                height: 35,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(8),
+                height: 50,
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
                     showLoadingDialog(context);
@@ -503,37 +502,41 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: paymentMethods.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    height: 50,
-                                    child: RadioListTile(
-                                      value: index,
-                                      onChanged: (newCheck) {
-                                        selectedPaymentMethod = index;
-                                        Navigator.pop(context);
-                                        setState(() {});
-                                      },
-                                      title: Text(
-                                          paymentMethods[index].toString()),
-                                      groupValue: selectedPaymentMethod,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                    content: Container(
+                      height: 50 * paymentMethods.length + 25,
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: paymentMethods.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 50,
+                                      child: RadioListTile(
+                                        value: index,
+                                        onChanged: (newCheck) {
+                                          selectedPaymentMethod = index;
+                                          Navigator.pop(context);
+                                          setState(() {});
+                                        },
+                                        title: Text(
+                                            paymentMethods[index].toString()),
+                                        groupValue: selectedPaymentMethod,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

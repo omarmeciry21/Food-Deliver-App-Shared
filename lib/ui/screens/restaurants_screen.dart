@@ -179,7 +179,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                       );
                                     },
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width,
+                                      width: double.infinity,
                                       color: Colors.transparent,
                                       child: Column(
                                         children: [
@@ -191,9 +191,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                               : Container(
                                                   color: Colors.grey.shade300,
                                                   height: 3,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
+                                                  width: double.infinity,
                                                 ),
                                         ],
                                       ),
@@ -303,88 +301,98 @@ class _CustomAppBarState extends State<CustomAppBar> {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      child: listOfRestaurants == null
-                          ? Container(
-                              height: 50,
-                              width: 50,
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).accentColor,
-                              ),
-                            )
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      (listOfRestaurants.types ?? []).length,
-                                  itemBuilder: (context, index) {
-                                    bool isSelected = Provider.of<
-                                            RestaurantsProvider>(context)
-                                        .selectedTypes
-                                        .where((element) =>
-                                            element.id ==
-                                            listOfRestaurants.types![index].id)
-                                        .toList()
-                                        .isNotEmpty;
-                                    return Container(
-                                      height: 50,
-                                      child: CheckboxListTile(
-                                        value: isSelected,
-                                        onChanged: (newCheck) {
-                                          if (newCheck ?? true)
-                                            Provider.of<RestaurantsProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .addType(listOfRestaurants
-                                                    .types![index]);
-                                          else {
-                                            print("Pressed  ");
-                                            Provider.of<RestaurantsProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .removeType(listOfRestaurants
-                                                    .types![index]);
-                                          }
-                                        },
-                                        title: Text(listOfRestaurants!
-                                            .types![index]!.name
-                                            .toString()),
-                                      ),
-                                    );
-                                  },
+                content: Container(
+                  height: (listOfRestaurants!.types ?? []).length * 50,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  constraints: BoxConstraints(
+                    maxHeight: (listOfRestaurants!.types ?? []).length * 50,
+                    maxWidth: MediaQuery.of(context).size.width * 0.6,
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        child: listOfRestaurants == null
+                            ? Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).accentColor,
                                 ),
-                                SizedBox(
-                                  height: 35,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Theme.of(context).accentColor),
-                                    ),
-                                    child: Text(
-                                      Provider.of<AppPropertiesProvider>(
-                                              context)
-                                          .strings["filter"]
-                                          .toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        (listOfRestaurants.types ?? []).length,
+                                    itemBuilder: (context, index) {
+                                      bool isSelected =
+                                          Provider.of<RestaurantsProvider>(
+                                                  context)
+                                              .selectedTypes
+                                              .where((element) =>
+                                                  element.id ==
+                                                  listOfRestaurants
+                                                      .types![index].id)
+                                              .toList()
+                                              .isNotEmpty;
+                                      return Container(
+                                        height: 50,
+                                        child: CheckboxListTile(
+                                          value: isSelected,
+                                          onChanged: (newCheck) {
+                                            if (newCheck ?? true)
+                                              Provider.of<RestaurantsProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .addType(listOfRestaurants
+                                                      .types![index]);
+                                            else {
+                                              print("Pressed  ");
+                                              Provider.of<RestaurantsProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .removeType(listOfRestaurants
+                                                      .types![index]);
+                                            }
+                                          },
+                                          title: Text(listOfRestaurants!
+                                              .types![index]!.name
+                                              .toString()),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 35,
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Theme.of(context).accentColor),
+                                      ),
+                                      child: Text(
+                                        Provider.of<AppPropertiesProvider>(
+                                                context)
+                                            .strings["filter"]
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                    ),
-                  ],
+                                ],
+                              ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -400,13 +408,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ],
     );
-    final fullWidth = MediaQuery.of(context).size.width;
     final List<Widget> imageSliders = widget.banners
         .map((item) => Image.network(
               item,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               height: 200,
-              width: fullWidth,
+              width: double.infinity,
             ))
         .toList();
     return Directionality(
@@ -433,29 +440,33 @@ class _CustomAppBarState extends State<CustomAppBar> {
             duration: const Duration(milliseconds: 250),
             height: 150.0 * (isBannerOpen ? 1 : 0),
             color: Theme.of(context).primaryColor,
-            width: fullWidth,
             child: Stack(
               children: [
                 Container(
                   height: 150,
-                  width: fullWidth,
-                  child: CarouselSlider(
-                    items: imageSliders,
-                    carouselController: _controller,
-                    options: CarouselOptions(
-                        height: fullWidth / 2,
-                        viewportFraction: 1.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        initialPage: 0,
-                        enableInfiniteScroll: true,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        }),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CarouselSlider(
+                          items: imageSliders,
+                          carouselController: _controller,
+                          options: CarouselOptions(
+                              viewportFraction: 1.0,
+                              autoPlay: true,
+                              autoPlayInterval: Duration(seconds: 3),
+                              autoPlayAnimationDuration:
+                                  Duration(milliseconds: 800),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              initialPage: 0,
+                              enableInfiniteScroll: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Column(

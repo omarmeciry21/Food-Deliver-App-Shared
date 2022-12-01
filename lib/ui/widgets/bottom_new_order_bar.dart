@@ -29,9 +29,8 @@ class BottomNewOrderBar extends StatelessWidget {
                 afterPopAction();
               },
               child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                width: double.infinity,
+                padding: EdgeInsets.all(16),
                 color: Colors.green,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:food_delivery_app/data/models/restaurant_details.dart';
 import 'package:food_delivery_app/data/models/restaurants.dart';
 import 'package:food_delivery_app/data/network/restaurants_api.dart';
@@ -38,9 +39,11 @@ class RestaurantDetailsScreen extends StatefulWidget {
       _RestaurantDetailsScreenState();
 }
 
+const int FULL_MENU_INDEX = -1;
+
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   late final ScrollController controller;
-
+  int selectedCategoryIndex = FULL_MENU_INDEX;
   @override
   void initState() {
     // TODO: implement initState
@@ -64,17 +67,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ),
       ],
     );
-    var leftActions = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.white,
-            ))
-      ],
-    );
+    var leftActions = Row(mainAxisSize: MainAxisSize.min, children: []);
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -103,6 +96,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   }
                   if (snapshot.hasData) {
                     print(snapshot.data?.toJson());
+                    final categories = snapshot.data!.categories ?? [];
                     return Directionality(
                       textDirection: Provider.of<AppPropertiesProvider>(context)
                                   .language ==
@@ -110,7 +104,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           ? TextDirection.ltr
                           : TextDirection.rtl,
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: double.infinity,
                         color: Colors.grey.shade200,
                         child: Column(
                           children: [
@@ -132,12 +126,68 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                       height: 8,
                                     ),
                                     MealsBuilder(
-                                        categories:
-                                            snapshot.data!.categories ?? [],
+                                        categories: categories,
                                         controller: controller,
-                                        restaurants: widget.restaurant)
+                                        selectedCategoryIndex:
+                                            selectedCategoryIndex,
+                                        restaurants: widget.restaurant),
+                                    // Expanded(child: Container()),
                                   ],
                                 ),
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.red,
+                              child: ListView.builder(
+                                itemCount: categories.length + 1,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  var kCategoryTextStyle = TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          selectedCategoryIndex == index - 1
+                                              ? 16
+                                              : 14,
+                                      fontWeight:
+                                          selectedCategoryIndex == index - 1
+                                              ? FontWeight.bold
+                                              : FontWeight.w300);
+                                  return index == 0
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            selectedCategoryIndex = index - 1;
+                                            setState(() {});
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              Provider.of<AppPropertiesProvider>(
+                                                      context)
+                                                  .strings['fullMenu']
+                                                  .toString(),
+                                              style: kCategoryTextStyle,
+                                            ),
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            selectedCategoryIndex = index - 1;
+                                            setState(() {});
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              categories[index - 1]
+                                                  .name
+                                                  .toString(),
+                                              style: kCategoryTextStyle,
+                                            ),
+                                          ),
+                                        );
+                                },
                               ),
                             ),
                             BottomNewOrderBar(afterPopAction: () {
@@ -172,9 +222,11 @@ class MealsBuilder extends StatefulWidget {
       {Key? key,
       required this.categories,
       required this.controller,
+      required this.selectedCategoryIndex,
       required this.restaurants})
       : super(key: key);
   List<Categories> categories;
+  int selectedCategoryIndex;
   Restaurants restaurants;
   final ScrollController controller;
   @override
@@ -195,6 +247,7 @@ class _MealsBuilderState extends State<MealsBuilder> {
           buildMeals(
               categories: widget.categories,
               controller: widget.controller,
+              selectedCategoryIndex: widget.selectedCategoryIndex,
               provider: provider),
         ],
       ),
@@ -202,68 +255,63 @@ class _MealsBuilderState extends State<MealsBuilder> {
   }
 
   Widget buildMeals(
-          {required List<Categories> categories,
-          required ScrollController controller,
-          required RestaurantsProvider provider}) =>
-      ListView.builder(
-        controller: controller,
-        shrinkWrap: true,
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final meals = provider.mealsSearchKeyword == ""
-              ? category.meals ?? []
-              : (category.meals ?? [])
-                  .where((element) => element.name
-                      .toString()
-                      .toLowerCase()
-                      .contains(provider.mealsSearchKeyword.toLowerCase()))
-                  .toList();
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade400,
-                        borderRadius: BorderRadius.circular(2)),
-                  )),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      category.name.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Theme.of(context).primaryColor),
+      {required List<Categories> categories,
+      required ScrollController controller,
+      required int selectedCategoryIndex,
+      required RestaurantsProvider provider}) {
+    List resultMeals = [];
+    return ListView.builder(
+      controller: controller,
+      shrinkWrap: true,
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        final categoryMeals = selectedCategoryIndex == FULL_MENU_INDEX
+            ? categories[index].meals
+            : selectedCategoryIndex == index
+                ? categories[index].meals
+                : [];
+        final meals = provider.mealsSearchKeyword == ""
+            ? categoryMeals ?? []
+            : (categoryMeals ?? [])
+                .where((element) => element.name
+                    .toString()
+                    .toLowerCase()
+                    .contains(provider.mealsSearchKeyword.toLowerCase()))
+                .toList();
+        resultMeals += meals;
+        return index == categories.length - 1 && resultMeals.isEmpty
+            ? Center(
+                child: Container(
+                  child: Text(
+                    Provider.of<AppPropertiesProvider>(context)
+                        .strings['noMeals']
+                        .toString(),
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade400,
-                        borderRadius: BorderRadius.circular(2)),
-                  )),
+                ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView.builder(
+                    controller: controller,
+                    shrinkWrap: true,
+                    itemCount: (meals).length,
+                    itemBuilder: (context, index) {
+                      final meal = meals![index];
+                      return CustomMealListTile(
+                          meal: meal, restaurants: widget.restaurants);
+                    },
+                  ),
                 ],
-              ),
-              ListView.builder(
-                controller: controller,
-                shrinkWrap: true,
-                itemCount: (meals).length,
-                itemBuilder: (context, index) {
-                  final meal = meals![index];
-                  return CustomMealListTile(
-                      meal: meal, restaurants: widget.restaurants);
-                },
-              ),
-            ],
-          );
-        },
-      );
+              );
+      },
+    );
+  }
 
   Widget buildSearchMealsTextField(
           BuildContext context, RestaurantsProvider provider) =>
@@ -334,14 +382,14 @@ class CustomMealListTile extends StatelessWidget {
                       child: Image.network(
                         meal.image ?? "",
                         height: 125,
-                        width: MediaQuery.of(context).size.width,
+                        width: double.infinity,
                         fit: BoxFit.cover,
                       ),
                     )
                   : Image.asset(
                       "assets/images/placeholder.jpg",
                       height: 125,
-                      width: MediaQuery.of(context).size.width,
+                      width: double.infinity,
                       fit: BoxFit.cover,
                     ),
             ),

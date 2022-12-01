@@ -55,7 +55,7 @@ class _NewOrderDetailsScreenState extends State<NewOrderDetailsScreen> {
                   return Column(children: [
                     Container(
                       height: 40,
-                      width: MediaQuery.of(context).size.width,
+                      width: double.infinity,
                       child: AppBar(
                         toolbarHeight: 40,
                         centerTitle: true,
@@ -383,7 +383,7 @@ class _NewOrderDetailsScreenState extends State<NewOrderDetailsScreen> {
                         ),
                         SizedBox(
                           height: 50,
-                          width: MediaQuery.of(context).size.width,
+                          width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.pushReplacement(

@@ -66,6 +66,8 @@ class AppPropertiesProvider extends ChangeNotifier {
     "deliveryAddress": "عنوان التوصيل",
     "min": "دقائق",
     "deliveryPrice": "تكلقة التوصيل",
+    "fullMenu": "جميع الأصناف",
+    "noMeals": "لا توجد وجبات!",
   };
   static Map<String, String> en_strings = {
     "cancel": "Cancel",
@@ -127,11 +129,13 @@ class AppPropertiesProvider extends ChangeNotifier {
     "payment": "Payment",
     "paymentMethod": "Payment Method",
     "card": "Card",
-    "onDeliverغ": "On Delivery",
+    "onDelivery": "On Delivery",
     "deliveryTime": "Estimated Delivery Time",
     "deliveryAddress": "Delivery Adress",
     "min": "minutes",
     "deliveryPrice": "Delivery Price",
+    "fullMenu": "Full Menu",
+    "noMeals": "No meals found!",
   };
   String _language = "en";
 

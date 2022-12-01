@@ -61,7 +61,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
             children: [
               Container(
                 height: 40,
-                width: MediaQuery.of(context).size.width,
                 child: AppBar(
                   toolbarHeight: 40,
                   centerTitle: true,
@@ -418,17 +417,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           ? Image.network(
                                               restaurant?.logo ?? "",
                                               height: 125,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                              width: double.infinity,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.asset(
                                               "assets/images/placeholder.jpg",
                                               height: 125,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                              width: double.infinity,
                                               fit: BoxFit.cover,
                                             ),
                                     ),

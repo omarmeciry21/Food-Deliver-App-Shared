@@ -9,16 +9,24 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="working on orders_screen.dart">
+    <list default="true" id="bf3456fa-0af8-4ba7-8d91-01733026f973" name="Changes" comment="Project Finished">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/order/new_order.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/models/order/orders_list_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/models/order/orders_list_response.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/network/orders_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/network/orders_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/app_properties_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/choose_delivery_address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/choose_delivery_address.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/confirm_order_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/meal_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/new_order_details_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/orders_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/others_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/others_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurant_details_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/restaurants_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/verify_otp_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/bottom_new_order_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/bottom_new_order_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/dialogs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/drawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/drawer.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669662899932</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Project Finished">
+      <created>1669712927700</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669712927700</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -234,7 +249,8 @@
     <MESSAGE value="Working on new_order_details.dart" />
     <MESSAGE value="working on new_order_details_screen.dart" />
     <MESSAGE value="working on orders_screen.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on orders_screen.dart" />
+    <MESSAGE value="Project Finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project Finished" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

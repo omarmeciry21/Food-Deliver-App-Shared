@@ -14,43 +14,46 @@ Directionality buildDrawer(BuildContext context) {
       width: MediaQuery.of(context).size.width * 0.4 < 200
           ? 200
           : MediaQuery.of(context).size.width * 0.4,
-      child: ListView(
-        children: [
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => AddressesScreen()));
-          //   },
-          //   child: ListTile(
-          //     leading: Icon(
-          //       Icons.location_on,
-          //       color: Theme.of(context).primaryColor,
-          //     ),
-          //     title: Text(Provider.of<AppPropertiesProvider>(context)
-          //         .strings["addresses"]
-          //         .toString()),
-          //   ),
-          // ),
-          GestureDetector(
-            onTap: () async {
-              await (await SharedPreferences.getInstance()).remove("session");
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: ListTile(
-              leading: Icon(
-                Icons.exit_to_app_rounded,
-                color: Theme.of(context).primaryColor,
-              ),
-              title: Text(
-                Provider.of<AppPropertiesProvider>(context)
-                    .strings["logout"]
-                    .toString(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: ListView(
+          children: [
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => AddressesScreen()));
+            //   },
+            //   child: ListTile(
+            //     leading: Icon(
+            //       Icons.location_on,
+            //       color: Theme.of(context).primaryColor,
+            //     ),
+            //     title: Text(Provider.of<AppPropertiesProvider>(context)
+            //         .strings["addresses"]
+            //         .toString()),
+            //   ),
+            // ),
+            GestureDetector(
+              onTap: () async {
+                await (await SharedPreferences.getInstance()).remove("session");
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.exit_to_app_rounded,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  Provider.of<AppPropertiesProvider>(context)
+                      .strings["logout"]
+                      .toString(),
+                ),
               ),
             ),
-          ),
-          LanguagesCustomWidget()
-        ],
+            LanguagesCustomWidget()
+          ],
+        ),
       ),
     ),
   );

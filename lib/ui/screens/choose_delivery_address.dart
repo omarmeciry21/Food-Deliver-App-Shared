@@ -51,7 +51,7 @@ class _ChooseDeliveryAddressScreenState
   late LocationData tmpLocationData;
   _appBar(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       child: Stack(
         children: [
           Row(
@@ -377,7 +377,7 @@ class _ChooseDeliveryAddressScreenState
         return ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
           child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: double.infinity,
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 8),
             decoration: BoxDecoration(
               color: Colors.white,

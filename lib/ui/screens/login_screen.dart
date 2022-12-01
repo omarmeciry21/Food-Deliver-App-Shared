@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
+                    width: double.infinity,
                     child: Text(
                       Provider.of<AppPropertiesProvider>(context)
                           .strings["enterMobileNumberTitle"]
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
+                    width: double.infinity,
                     child: Directionality(
                       textDirection: Provider.of<AppPropertiesProvider>(context)
                                   .language ==
@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(child: Container()),
                   SizedBox(
                     height: 50,
-                    width: MediaQuery.of(context).size.width,
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
                         //TODO: implement phone number
